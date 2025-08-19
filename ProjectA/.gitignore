@@ -1,0 +1,27 @@
+# Unity ignores
+/Library/
+/UserSettings/
+/Logs/
+/Temp/
+/obj/
+/QCAR/
+/.vs/
+/.idea/
+/*.sln
+/*.csproj
+/*.csproj.user
+/*.unityproj
+/*.userprefs
+/NativePlugins/
+/Assets/0_GITIgnore/
+/Assets/0_GITIgnore.meta
+/Assets/Models/
+/Assets/Models.meta
+/Assets/Plugins/Editor/JetBrains/
+/Assets/Plugins/Editor/JetBrains.meta
+/Assets/Plugins/Editor.meta
+COMPS
+COMPS.meta
+*.mdb
+*.mdb.meta
+/Assets/Toon_RTS
