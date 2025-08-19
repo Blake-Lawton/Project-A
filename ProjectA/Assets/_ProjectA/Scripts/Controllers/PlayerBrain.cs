@@ -1,0 +1,127 @@
+using _BazookaBrawl.Data;
+using _BazookaBrawl.Data.ChracterData;
+using _BazookaBrawl.Data.PlayerData;
+using _ProjectA.Scripts.Networking;
+using Mirror;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
+namespace _ProjectA.Scripts.Controllers
+{
+    [RequireComponent(typeof(MovementController), typeof(Client), typeof(NetworkIdentity))]
+    public class PlayerBrain : NetworkBehaviour
+    {
+      
+
+        [SerializeField] private CharacterData _characterData;
+        private PlayerData _playerData;
+        private MovementController _movement;
+        private AnimationController _animation;
+        private Client _client;
+        private HealthController _health;
+        public CharacterData CharacterData => _characterData;
+        public PlayerData PlayerData => _playerData;
+        public MovementController Movement => _movement;
+        public Client client => _client;
+        public NetworkIdentity NetworkIdentity => netIdentity;
+        public HealthController Health => _health;
+        
+        
+        [Header("Debug for now")] 
+        [SerializeField, SyncVar(hook = nameof(OnTeamChange))] private Team _team;
+        
+        public Team Team => _team;
+
+        [SerializeField] private bool _isDummy;
+
+        [SyncVar(hook = nameof(OnNameChange))] private string _playerName;
+        private void Awake()
+        {
+            _health = GetComponent<HealthController>();
+            _movement = GetComponent<MovementController>();
+            _animation = GetComponent<AnimationController>();
+            _client = GetComponent<Client>();
+
+        }
+
+        private void Start()
+        {
+            if(!_isDummy)
+                NetworkManagerA.Instance.AddPlayer(this);
+        }
+
+        private void OnDestroy() => NetworkManagerA.Instance.RemovePlayer(this);
+       
+
+        public PlayerBrain SetUp(Team team)
+        {
+            
+            _team = team;
+            if(isLocalPlayer)
+                gameObject.layer = LayerMask.NameToLayer("LocalPlayer");
+            else
+                gameObject.layer = LayerMask.NameToLayer(Team.ToString());
+
+
+         
+            
+            if (!isServer) return this;
+            //for sure debug
+            string pName = Random.Range(0, 100).ToString();
+            _playerName = pName + " " + _team;
+            name = _playerName;
+            return this;
+        }
+       
+        // all debug
+        private void OnNameChange(string oldName, string newName)
+        {
+            name = _playerName;
+        }
+
+        private void OnTeamChange(Team oldTeam, Team newTeam)
+        {
+            Debug.Log(" Team Update to  " + newTeam);
+            _team = newTeam;
+            gameObject.layer = LayerMask.NameToLayer(_team.ToString());
+        }
+        
+        //Debug ^^^^^
+        private void Update()
+        { 
+          if(_health.IsDead)
+              return;
+          
+          if (isLocalPlayer )
+          {
+              _movement.RotationInput();
+              _movement.Handle(); 
+              
+              //_animation.Handle();
+          }
+          
+          _health.Handle();
+          _client.Handle();
+        }
+
+        private void LateUpdate()
+        {
+            /*if(isLocalPlayer)
+                _camera.Handle();*/
+        }
+
+
+        [Server]
+        public void Reset()
+        {
+            Health.Reset();
+            ResetRPC();
+        }
+
+        [ClientRpc]
+        private void ResetRPC()
+        {
+            _health.Reset();
+        }
+    }
+}
