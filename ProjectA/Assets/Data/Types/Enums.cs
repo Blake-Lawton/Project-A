@@ -1,6 +1,4 @@
-using System;
-
-namespace _BazookaBrawl.Data
+namespace Data.Types
 {
     public enum Team
     {
@@ -9,19 +7,10 @@ namespace _BazookaBrawl.Data
         Team3 = 3 
     }
 
-    public enum HitBoxType
+    public enum TargetType
     {
-        Head,
-        Body,
-        Weapon
-    }
-
-    public enum GameState
-    {
-        Loading,
-        RoundStarting,
-        Playing,
-        RoundEnd,
-        EndGame
+        Enemy,
+        Ally,
+        Both
     }
 }

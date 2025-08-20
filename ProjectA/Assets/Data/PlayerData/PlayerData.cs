@@ -1,4 +1,5 @@
 using System;
+using Data.Types;
 using UnityEngine;
 
 namespace _BazookaBrawl.Data.PlayerData

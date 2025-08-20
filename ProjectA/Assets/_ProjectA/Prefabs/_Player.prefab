@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 2827365337522402185}
   - component: {fileID: -2525703521374859718}
   - component: {fileID: -7995292703865938571}
+  - component: {fileID: 8966943616911043610}
   m_Layer: 0
   m_Name: _Player
   m_TagString: Untagged
@@ -44,6 +45,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3750523431455772646}
+  - {fileID: 4026165860950318448}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &303256935319288797
@@ -163,6 +165,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _characterData: {fileID: 11400000, guid: 5caf3d09f4de6104da0c704c3243c58f, type: 2}
+  _namePlatePrefab: {fileID: 1841085657483556188, guid: d7f396c539c5c6e4180db68d2be1b4f4, type: 3}
   _team: 1
   _isDummy: 0
 --- !u!114 &8190740142725388893
@@ -213,7 +216,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _healthBarPrefab: {fileID: 1841085657483556188, guid: d7f396c539c5c6e4180db68d2be1b4f4, type: 3}
   _currentHealth: 0
   _maxHealth: 0
 --- !u!114 &5329486289855829560
@@ -240,8 +242,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee34b17d2d312d4089826ed106d6d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _offset: {x: 0, y: 15, z: -3}
-  _positionLerpSpeed: 5
   _fixedRotationEuler: {x: 80, y: 0, z: 0}
 --- !u!114 &-4594841573846290213
 MonoBehaviour:
@@ -306,6 +310,56 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _snapShotBufferMultiplier: 2
+--- !u!114 &8966943616911043610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284198345211701280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed00a9d6c1cb9754b9421a1f11d44a92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _target: {fileID: 0}
+  _abilities:
+  - {fileID: 7116801958532482691}
+--- !u!1 &6292041744965158672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4026165860950318448}
+  m_Layer: 0
+  m_Name: Abilities
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4026165860950318448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6292041744965158672}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4326252017635475993}
+  m_Father: {fileID: 1776495400355846649}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6495017708124886875
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,3 +468,51 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &6560764729168384393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4326252017635475993}
+  - component: {fileID: 7116801958532482691}
+  m_Layer: 0
+  m_Name: IceBolt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4326252017635475993
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6560764729168384393}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4026165860950318448}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7116801958532482691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6560764729168384393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50cc5d1a7761704d9d13e701478ccbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _iceBoltData: {fileID: 11400000, guid: de21f8e8b26457746a48507f52bb1572, type: 2}

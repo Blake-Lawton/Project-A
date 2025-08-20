@@ -2,6 +2,7 @@ using System;
 using _BazookaBrawl.Data;
 using _ProjectA.Scripts.Controllers;
 using _ProjectA.Scripts.Networking;
+using Data.Types;
 using Mirror;
 using Sirenix.OdinInspector;
 using UnityEngine;

@@ -1,15 +1,15 @@
 using System;
+using Mirror;
 using UnityEngine;
 
 namespace _ProjectA.Scripts.Controllers
 {
-    public class CameraController : MonoBehaviour
+    public class CameraController : NetworkBehaviour
     {
        
         private Camera _camera;        // Camera reference
         private Transform _target;     // Target to follow
-        [SerializeField] private Vector3 _offset = new Vector3(0, 10, -10); // Offset from the target
-        [SerializeField] private float _positionLerpSpeed = 5f;
+        [SerializeField] private Vector3 _offset = new Vector3(0, 10, -10); // Offset from the target\
         [SerializeField] private Vector3 _fixedRotationEuler = new Vector3(45f, 0f, 0f); // Top-down angle
 
 
@@ -22,7 +22,7 @@ namespace _ProjectA.Scripts.Controllers
 
         private void LateUpdate()
         {
-            if (_camera == null || _target == null) return;
+            if (_camera == null || _target == null || !isLocalPlayer) return;
 
             // Smoothly move camera to follow the target with offset
             Vector3 desiredPosition = _target.position + _offset;

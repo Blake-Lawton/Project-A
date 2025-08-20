@@ -2,6 +2,8 @@ using _BazookaBrawl.Data;
 using _BazookaBrawl.Data.ChracterData;
 using _BazookaBrawl.Data.PlayerData;
 using _ProjectA.Scripts.Networking;
+using _ProjectA.Scripts.UI;
+using Data.Types;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,11 +16,13 @@ namespace _ProjectA.Scripts.Controllers
       
 
         [SerializeField] private CharacterData _characterData;
+        [SerializeField] private NamePlate _namePlatePrefab;
         private PlayerData _playerData;
         private MovementController _movement;
         private AnimationController _animation;
         private Client _client;
         private HealthController _health;
+        private AbilityController _ability;
         public CharacterData CharacterData => _characterData;
         public PlayerData PlayerData => _playerData;
         public MovementController Movement => _movement;
@@ -41,17 +45,22 @@ namespace _ProjectA.Scripts.Controllers
             _movement = GetComponent<MovementController>();
             _animation = GetComponent<AnimationController>();
             _client = GetComponent<Client>();
-
+            _ability = GetComponent<AbilityController>();
         }
 
         private void Start()
         {
             if(!_isDummy)
                 NetworkManagerA.Instance.AddPlayer(this);
+            
+            NamePlate namePlate = Instantiate(_namePlatePrefab, ScreenSpaceCanvas.Instance.transform);
+            namePlate.SetUp(transform);
+            _health.SetUp(namePlate, _characterData);
+            _ability.SetUp(namePlate);
         }
 
         private void OnDestroy() => NetworkManagerA.Instance.RemovePlayer(this);
-       
+        
 
         public PlayerBrain SetUp(Team team)
         {
@@ -61,9 +70,7 @@ namespace _ProjectA.Scripts.Controllers
                 gameObject.layer = LayerMask.NameToLayer("LocalPlayer");
             else
                 gameObject.layer = LayerMask.NameToLayer(Team.ToString());
-
-
-         
+            
             
             if (!isServer) return this;
             //for sure debug
@@ -99,7 +106,7 @@ namespace _ProjectA.Scripts.Controllers
               
               //_animation.Handle();
           }
-          
+          _ability.Handle();
           _health.Handle();
           _client.Handle();
         }

@@ -1,4 +1,5 @@
 using System;
+using _BazookaBrawl.Data.ChracterData;
 using _ProjectA.Scripts.Interface;
 using _ProjectA.Scripts.UI;
 using Data.Interaction;
@@ -12,8 +13,8 @@ namespace _ProjectA.Scripts.Controllers
     {
 
         [Header("UI")] 
-        [SerializeField] private HealthBarUI _healthBarPrefab;
-        private HealthBarUI _healthBar;
+        
+        private NamePlate _namePlate;
         public PlayerBrain Brain { get; set; }
        [Header("Health Data")]
        [Mirror.ReadOnly, SyncVar, SerializeField]private int _currentHealth;
@@ -35,15 +36,16 @@ namespace _ProjectA.Scripts.Controllers
             _currentHealth = _maxHealth;
         }
 
-        private void Start()
+        public void SetUp(NamePlate namePlate, CharacterData data)
         {
-            _healthBar = Instantiate(_healthBarPrefab, ScreenSpaceCanvas.Instance.transform);
-            _healthBar.SetUp(transform);
+            _namePlate = namePlate;
+            _maxHealth = data.Health;
+            _currentHealth = data.Health;
         }
 
         public void Handle()
         {
-            _healthBar.UpdateHealthBar((float)_currentHealth / _maxHealth);
+            _namePlate.UpdateHealthBar((float)_currentHealth / _maxHealth);
         }
         
 
@@ -74,7 +76,7 @@ namespace _ProjectA.Scripts.Controllers
         [ClientRpc]
         private void DeathRPC()
         {
-            _healthBar.Show(false);
+            _namePlate.Show(false);
             OnDeath?.Invoke();
         }
         
@@ -85,7 +87,9 @@ namespace _ProjectA.Scripts.Controllers
             _isDead = false;
             _currentHealth = _maxHealth;
         
-            _healthBar.Show(true);
+            _namePlate.Show(true);
         }
+
+       
     }
 }
