@@ -7,6 +7,5 @@ namespace _ProjectA.Scripts.Interface
     {
         public PlayerBrain Brain { get; set; }
         public void TakeDamage(InteractionData data);
-        public void Heal(int heal);
     }
 }

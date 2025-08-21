@@ -1,5 +1,7 @@
 using System;
+using _ProjectA.Scripts.Abilities;
 using _ProjectA.Scripts.Networking;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -19,6 +21,12 @@ namespace _ProjectA.Scripts.UI
         [SerializeField] private GameObject _castBarContainer;
         [SerializeField] private Image _castBarFill;
         [SerializeField] private TMP_Text _abilityName;
+        
+        [Header("Interrupt Bar")]
+        [SerializeField] private CanvasGroup _interruptBar;
+        
+        [Header("Completed Bar")]
+        [SerializeField] private CanvasGroup _completedBar;
         
         private Transform _target;
         private Camera _camera;
@@ -62,6 +70,33 @@ namespace _ProjectA.Scripts.UI
             Vector3 worldPos = _target.position + _namePlateOffSet;
             Vector3 screenPos = _camera.WorldToScreenPoint(worldPos);
             transform.position = screenPos;
+        }
+
+        public void StartCast(BaseAbility currentAbility)
+        {
+            _interruptBar.gameObject.SetActive(false);
+            _completedBar.gameObject.SetActive(false);
+            ShowCastBar(true);
+            _abilityName.text = currentAbility.Data.Name;
+            _castBarFill.fillAmount = 0f;
+            _castBarFill.color = Color.yellow;
+        }
+
+        public void CompleteCast()
+        {
+            ShowCastBar(false);
+            _completedBar.gameObject.SetActive(true);
+            _completedBar.alpha = 1;
+            _completedBar.DOFade(0, .5f);
+            // do some cool shit to your cast bar
+        }
+
+        public void Interrupt()
+        {
+            ShowCastBar(false);
+            _interruptBar.gameObject.SetActive(true);
+            _interruptBar.alpha = 1;
+            _interruptBar.DOFade(0, .5f);
         }
     }
 }

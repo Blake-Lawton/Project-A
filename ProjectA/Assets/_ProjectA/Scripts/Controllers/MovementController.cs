@@ -29,7 +29,7 @@ namespace _ProjectA.Scripts.Controllers
         
         public bool InputJump => _pressedJump;
         
-        
+        public bool Moving => _finalVelocity != Vector3.zero;
         public CharacterController CC => _cc;
         void Awake()
         {
@@ -93,7 +93,6 @@ namespace _ProjectA.Scripts.Controllers
             _finalVelocity = input.Movement;
             _cc.Move(_finalVelocity * (NetworkServer.sendInterval * _brain.CharacterData.MaxMoveSpeed));
             var state = RecordState(input.Tick);
-            _finalVelocity = Vector3.zero;
             return state;
         }
 
@@ -101,11 +100,6 @@ namespace _ProjectA.Scripts.Controllers
 
         #region Apply
 
-       
-
-      
-        
-     
         
         [Server]
         public void Teleport(Transform point)

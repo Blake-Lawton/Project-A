@@ -9,13 +9,13 @@ using UnityEngine;
 
 namespace _ProjectA.Scripts.Controllers
 {
-    public class HealthController : NetworkBehaviour , IDamageable
+    public class HealthController : NetworkBehaviour
     {
 
         [Header("UI")] 
         
         private NamePlate _namePlate;
-        public PlayerBrain Brain { get; set; }
+        private PlayerBrain _brain;
        [Header("Health Data")]
        [Mirror.ReadOnly, SyncVar, SerializeField]private int _currentHealth;
        [Mirror.ReadOnly, SyncVar, SerializeField]private int _maxHealth;
@@ -31,8 +31,8 @@ namespace _ProjectA.Scripts.Controllers
 
        private void Awake()
         {
-            Brain = GetComponent<PlayerBrain>();
-            _maxHealth = Brain.CharacterData.Health;
+            _brain = GetComponent<PlayerBrain>();
+            _maxHealth = _brain.CharacterData.Health;
             _currentHealth = _maxHealth;
         }
 
@@ -49,11 +49,11 @@ namespace _ProjectA.Scripts.Controllers
         }
         
 
-        public void TakeDamage(InteractionData data)
+        public void TakeDamage(int damage)
         {
-            
+            _currentHealth -= damage;
             if(_currentHealth <= 0)
-                Death(data);
+                Death();
         }
 
         public void Heal(int heal)
@@ -63,12 +63,10 @@ namespace _ProjectA.Scripts.Controllers
         }
         
         [Server]
-        [Button]
-        [GUIColor(1f, 0.3f, 0.3f)]
-        public void Death(InteractionData data)
+        private void Death()
         {
             _isDead = true;
-            OnDeathServer?.Invoke(Brain);
+            OnDeathServer?.Invoke(_brain);
             DeathRPC();
           
         }

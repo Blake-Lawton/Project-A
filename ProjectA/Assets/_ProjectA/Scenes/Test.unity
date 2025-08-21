@@ -424,6 +424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 324874992}
   - component: {fileID: 324874993}
+  - component: {fileID: 324874994}
   m_Layer: 0
   m_Name: DEBUG
   m_TagString: Untagged
@@ -460,6 +461,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fpsText: {fileID: 1621564591}
   updateRate: 0.5
+--- !u!114 &324874994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324874991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8aa01144345f3f4c82bf52afc57dd62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxMessages: 50
+  _windowRect:
+    serializedVersion: 2
+    x: 1167.3058
+    y: 14.974094
+    width: 600
+    height: 300
+  _enableDragging: 1
+  _toggleKey: 282
 --- !u!1 &824328695
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2284198345211701280, guid: 50f23596ee9d48341a9f64e62b8e3d1b, type: 3}
       propertyPath: m_Name
-      value: _Player (1)
+      value: Dummy
       objectReference: {fileID: 0}
     - target: {fileID: 5336836065865958413, guid: 50f23596ee9d48341a9f64e62b8e3d1b, type: 3}
       propertyPath: sceneId

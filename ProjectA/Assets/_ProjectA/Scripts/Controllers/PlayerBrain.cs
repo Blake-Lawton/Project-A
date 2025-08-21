@@ -17,19 +17,22 @@ namespace _ProjectA.Scripts.Controllers
 
         [SerializeField] private CharacterData _characterData;
         [SerializeField] private NamePlate _namePlatePrefab;
+        public NamePlate _nameplate;
         private PlayerData _playerData;
         private MovementController _movement;
         private AnimationController _animation;
         private Client _client;
         private HealthController _health;
         private AbilityController _ability;
+        private StatusController _status;
         public CharacterData CharacterData => _characterData;
         public PlayerData PlayerData => _playerData;
         public MovementController Movement => _movement;
         public Client client => _client;
         public NetworkIdentity NetworkIdentity => netIdentity;
         public HealthController Health => _health;
-        
+        public AbilityController Ability => _ability;
+        public StatusController Status => _status;
         
         [Header("Debug for now")] 
         [SerializeField, SyncVar(hook = nameof(OnTeamChange))] private Team _team;
@@ -41,6 +44,7 @@ namespace _ProjectA.Scripts.Controllers
         [SyncVar(hook = nameof(OnNameChange))] private string _playerName;
         private void Awake()
         {
+            _status = GetComponent<StatusController>();
             _health = GetComponent<HealthController>();
             _movement = GetComponent<MovementController>();
             _animation = GetComponent<AnimationController>();
@@ -54,13 +58,19 @@ namespace _ProjectA.Scripts.Controllers
                 NetworkManagerA.Instance.AddPlayer(this);
             
             NamePlate namePlate = Instantiate(_namePlatePrefab, ScreenSpaceCanvas.Instance.transform);
+            _nameplate = namePlate;
             namePlate.SetUp(transform);
             _health.SetUp(namePlate, _characterData);
             _ability.SetUp(namePlate);
         }
 
-        private void OnDestroy() => NetworkManagerA.Instance.RemovePlayer(this);
-        
+        private void OnDestroy()
+        {
+            if(_nameplate  !=null)
+                Destroy(_nameplate.gameObject);
+            NetworkManagerA.Instance.RemovePlayer(this);
+        }
+
 
         public PlayerBrain SetUp(Team team)
         {
@@ -103,21 +113,13 @@ namespace _ProjectA.Scripts.Controllers
           {
               _movement.RotationInput();
               _movement.Handle(); 
-              
               //_animation.Handle();
           }
           _ability.Handle();
           _health.Handle();
           _client.Handle();
         }
-
-        private void LateUpdate()
-        {
-            /*if(isLocalPlayer)
-                _camera.Handle();*/
-        }
-
-
+        
         [Server]
         public void Reset()
         {

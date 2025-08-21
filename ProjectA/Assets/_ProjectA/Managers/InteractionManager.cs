@@ -26,52 +26,15 @@ namespace _ProjectA.Managers
       public void ProcessInteraction(InteractionData data)
       {
          
-         //hit some sort of environnnment
-         if (data.Victim == null)
-         {
+         if (data.Victim == null || data.Victim.Health.IsDead) 
             return;
-         }
-         
-         if (data.Victim.Brain.Health.IsDead)
+
+         if (data.Perp.isServer)
          {
-            return;
+            // Defer to the ability itself to decide what happens
+            data.AbilityData.ResolveEffect(data);
          }
-         
-         //hit a teammate 
-         if (data.Victim.Brain.Team == data.Perp.Brain.Team && !data.Victim.Brain.Health.IsDead)
-         {
-            if (isServer)
-            {
-               //if Hit self and server then apply force
-               if (data.Victim.Brain == data.Perp.Brain)
-               {
-                  
-               }
-            }
-            return;
-         }
-          
-         // hit player
-         var perpBrain = data.Perp.Brain;
-         if (data.Victim.Brain.Team != perpBrain.Team && !data.Victim.Brain.Health.IsDead)
-         {
-            if (perpBrain.isLocalPlayer)
-            {
-               return;
-            }
-            
-            // if another player hits another player
-            if (perpBrain.isClient)
-            {
-               return;
-            }
-            
-            //if hit on server
-            if (perpBrain.isServer)
-            {
-               data.Victim.TakeDamage(data);
-            }
-         }
+        
       }
    }
 }

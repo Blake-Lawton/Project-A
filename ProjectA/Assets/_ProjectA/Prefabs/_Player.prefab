@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: -2525703521374859718}
   - component: {fileID: -7995292703865938571}
   - component: {fileID: 8966943616911043610}
+  - component: {fileID: 644759973291147769}
   m_Layer: 0
   m_Name: _Player
   m_TagString: Untagged
@@ -166,6 +167,7 @@ MonoBehaviour:
   syncInterval: 0
   _characterData: {fileID: 11400000, guid: 5caf3d09f4de6104da0c704c3243c58f, type: 2}
   _namePlatePrefab: {fileID: 1841085657483556188, guid: d7f396c539c5c6e4180db68d2be1b4f4, type: 3}
+  _nameplate: {fileID: 0}
   _team: 1
   _isDummy: 0
 --- !u!114 &8190740142725388893
@@ -328,6 +330,26 @@ MonoBehaviour:
   _target: {fileID: 0}
   _abilities:
   - {fileID: 7116801958532482691}
+  _isCasting: 0
+  _localCastStartTime: 0
+  _serverCastStartTime: 0
+  _globalCd: 0
+  _currentAbility: {fileID: 0}
+--- !u!114 &644759973291147769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284198345211701280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6ab23eecb442fb44bf7d00c87761bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stunned: 0
+  _rooted: 0
+  DamageAmp: 1
 --- !u!1 &6292041744965158672
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,4 +537,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _icon: {fileID: 0}
+  _fill: {fileID: 0}
+  _cooldownText: {fileID: 0}
   _iceBoltData: {fileID: 11400000, guid: de21f8e8b26457746a48507f52bb1572, type: 2}
+  _firePoint: {fileID: 3750523431455772646}
+  _target: {fileID: 0}
