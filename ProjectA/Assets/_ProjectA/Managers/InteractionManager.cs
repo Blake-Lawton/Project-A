@@ -1,8 +1,6 @@
-using _BazookaBrawl.Scripts.Manager;
+using System;
 using Data.Interaction;
 using Mirror;
-using UnityEngine;
-using UnityEngine.UI;
 
 // ReSharper disable InconsistentNaming
 
@@ -13,7 +11,6 @@ namespace _ProjectA.Managers
       //create singleton
       public static InteractionManager Instance;
 
-      [SerializeField] private InteractionNumbersManager _numbers;
       
       public void Awake()
       {
@@ -31,10 +28,11 @@ namespace _ProjectA.Managers
 
          if (data.Perp.isServer)
          {
-            // Defer to the ability itself to decide what happens
-            data.AbilityData.ResolveEffect(data);
+            data.Ability.ResolveAbility(data);
          }
-        
       }
    }
+   
+   
+   
 }

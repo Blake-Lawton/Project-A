@@ -91,7 +91,9 @@ namespace _ProjectA.Scripts.Controllers
             transform.eulerAngles = input.Rotation;
             _cc.enabled = true;
             _finalVelocity = input.Movement;
-            _cc.Move(_finalVelocity * (NetworkServer.sendInterval * _brain.CharacterData.MaxMoveSpeed));
+          
+            _cc.Move(_finalVelocity * (NetworkServer.sendInterval * _brain.CharacterData.MaxMoveSpeed * _brain.Status.SlowFactor()));
+            _cc.enabled = false;
             var state = RecordState(input.Tick);
             return state;
         }

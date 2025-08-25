@@ -77,7 +77,7 @@ namespace _ProjectA.Scripts.UI
             _interruptBar.gameObject.SetActive(false);
             _completedBar.gameObject.SetActive(false);
             ShowCastBar(true);
-            _abilityName.text = currentAbility.Data.Name;
+            _abilityName.text = currentAbility.BaseData.Name;
             _castBarFill.fillAmount = 0f;
             _castBarFill.color = Color.yellow;
         }

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 477f8aedc62311043b65c1255f34a062
+timeCreated: 1503594153
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 96011
+  packageName: Audio Manager Pro
+  packageVersion: 1.1.9
+  assetPath: Assets/Plugins/QFSW/Audio Manager Pro/Demo/SFXObjects/GameOverExplosion.asset
+  uploadId: 475220

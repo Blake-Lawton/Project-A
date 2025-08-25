@@ -19,9 +19,7 @@ namespace _ProjectA.Scripts.Networking
         private CspState _latestProcessedCspState;
         private const int BUFFER_SIZE = 1024;
         
-        [Header("Dummy")] 
-        [SerializeField]private bool _showServerDummy;
-        [SerializeField]private GameObject _serverDummyPrefab;
+      
         
         private GameObject _serverDummy;
         
@@ -37,12 +35,7 @@ namespace _ProjectA.Scripts.Networking
             _inputBuffer = new InputPayLoad[BUFFER_SIZE];
         }
 
-        private void Start()
-        {
-            if (_showServerDummy && isLocalPlayer && !isServer)
-                _serverDummy = Instantiate(_serverDummyPrefab);
-        }
-        
+    
         private void OnDestroy() => Destroy(_serverDummy);
         
         public void HandleTick(Client client)
@@ -54,18 +47,8 @@ namespace _ProjectA.Scripts.Networking
         
         public void SmoothMovement(float _accumulateTime)
         {
-            
-            if(Input.GetKeyDown(KeyCode.Alpha5))
-                _serverDummy.gameObject.SetActive(!_serverDummy.gameObject.activeSelf);
-            
             transform.position = Vector3.Lerp(_clientState[(_currentTick - 2) % BUFFER_SIZE].Position, 
                 _clientState[(_currentTick -1) % BUFFER_SIZE].Position, _accumulateTime / NetworkServer.sendInterval);
-            
-            
-            if (_serverDummy)
-            {
-                _serverDummy.transform.position = _latestServerCspState.Position;
-            }
         }
         
         private void HandlePrediction(Client client)

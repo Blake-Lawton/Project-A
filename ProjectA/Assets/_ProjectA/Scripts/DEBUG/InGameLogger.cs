@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _BazookaBrawl.Scripts.Debugging
+namespace _ProjectA.Scripts.DEBUG
 {
     public class InGameLogger : MonoBehaviour
     {
@@ -22,6 +22,10 @@ namespace _BazookaBrawl.Scripts.Debugging
         {
             // Subscribe to Unity's log message callback
             Application.logMessageReceived += HandleLog;
+
+#if UNITY_EDITOR
+            showLog = false;
+#endif
         }
 
         private void OnDisable()

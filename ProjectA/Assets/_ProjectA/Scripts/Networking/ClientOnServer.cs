@@ -86,7 +86,10 @@ namespace _ProjectA.Scripts.Networking
             //send to remote clients
             _remote.SendClientStates(_serverGameStates[_currentServerTick % BUFFER_SIZE]);
             
-         
+            if (!cspState.Equals(default(CspState)))
+            {
+                  _csp.ReceiveCspState(cspState);
+            }
         }
       
     }

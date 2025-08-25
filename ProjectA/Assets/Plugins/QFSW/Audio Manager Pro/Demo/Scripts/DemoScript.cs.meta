@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: bac98fb97a666484fa7f535db8a6e33e
+timeCreated: 1503591540
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 96011
+  packageName: Audio Manager Pro
+  packageVersion: 1.1.9
+  assetPath: Assets/Plugins/QFSW/Audio Manager Pro/Demo/Scripts/DemoScript.cs
+  uploadId: 475220

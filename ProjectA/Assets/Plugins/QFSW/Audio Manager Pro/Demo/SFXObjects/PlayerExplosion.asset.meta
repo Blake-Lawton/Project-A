@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f65444eb5dac25b49ae6ddb9246e94fe
+timeCreated: 1503594100
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 96011
+  packageName: Audio Manager Pro
+  packageVersion: 1.1.9
+  assetPath: Assets/Plugins/QFSW/Audio Manager Pro/Demo/SFXObjects/PlayerExplosion.asset
+  uploadId: 475220

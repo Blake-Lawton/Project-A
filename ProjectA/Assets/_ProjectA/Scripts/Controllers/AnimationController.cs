@@ -7,6 +7,7 @@ namespace _ProjectA.Scripts.Controllers
       private Animator _animator;
       private MovementController _movement;
 
+      public Animator Animator => _animator;
       private void Awake()
       {
          _animator = GetComponentInChildren<Animator>();
@@ -26,6 +27,8 @@ namespace _ProjectA.Scripts.Controllers
 
          _animator.SetFloat("Horizontal", velocityX, 1f, Time.deltaTime * 10f);
          _animator.SetFloat("Vertical", velocityZ, 1f, Time.deltaTime * 10f);
+         
+         _animator.SetBool("IsMoving",_movement.MoveDirection.magnitude > 0.1f);
       }
    }
 }

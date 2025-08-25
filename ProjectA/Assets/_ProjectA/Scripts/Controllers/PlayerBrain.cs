@@ -3,6 +3,7 @@ using _BazookaBrawl.Data.ChracterData;
 using _BazookaBrawl.Data.PlayerData;
 using _ProjectA.Scripts.Networking;
 using _ProjectA.Scripts.UI;
+using _ProjectA.Scripts.Util;
 using Data.Types;
 using Mirror;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace _ProjectA.Scripts.Controllers
 
         [SerializeField] private CharacterData _characterData;
         [SerializeField] private NamePlate _namePlatePrefab;
-        public NamePlate _nameplate;
+        private NamePlate _nameplate;
         private PlayerData _playerData;
         private MovementController _movement;
         private AnimationController _animation;
@@ -25,6 +26,7 @@ namespace _ProjectA.Scripts.Controllers
         private HealthController _health;
         private AbilityController _ability;
         private StatusController _status;
+        private JointFinder _jointFinder;
         public CharacterData CharacterData => _characterData;
         public PlayerData PlayerData => _playerData;
         public MovementController Movement => _movement;
@@ -33,7 +35,9 @@ namespace _ProjectA.Scripts.Controllers
         public HealthController Health => _health;
         public AbilityController Ability => _ability;
         public StatusController Status => _status;
-        
+        public NamePlate NamePlate => _nameplate;
+        public JointFinder JointFinder => _jointFinder;
+        public AnimationController Animation => _animation;
         [Header("Debug for now")] 
         [SerializeField, SyncVar(hook = nameof(OnTeamChange))] private Team _team;
         
@@ -50,6 +54,7 @@ namespace _ProjectA.Scripts.Controllers
             _animation = GetComponent<AnimationController>();
             _client = GetComponent<Client>();
             _ability = GetComponent<AbilityController>();
+            _jointFinder = GetComponentInChildren<JointFinder>();
         }
 
         private void Start()
@@ -112,9 +117,12 @@ namespace _ProjectA.Scripts.Controllers
           if (isLocalPlayer )
           {
               _movement.RotationInput();
-              _movement.Handle(); 
-              //_animation.Handle();
+              _movement.Handle();
+              
+              _animation.Handle();
           }
+          
+          _status.Handle();
           _ability.Handle();
           _health.Handle();
           _client.Handle();
@@ -131,6 +139,11 @@ namespace _ProjectA.Scripts.Controllers
         private void ResetRPC()
         {
             _health.Reset();
+        }
+
+        public bool OnSameTeam(PlayerBrain target)
+        {
+            return _team == target.Team;
         }
     }
 }

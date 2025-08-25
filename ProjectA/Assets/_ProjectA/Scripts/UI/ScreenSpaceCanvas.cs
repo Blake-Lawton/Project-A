@@ -7,8 +7,12 @@ namespace _ProjectA.Scripts.UI
     {
         public static ScreenSpaceCanvas Instance;
 
+        private Canvas _canvas;
+        public Canvas Canvas => _canvas;
+
         private void Awake()
         {
+            _canvas = GetComponent<Canvas>();
             Instance = this;
         }
     }

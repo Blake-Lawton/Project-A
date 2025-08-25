@@ -1,5 +1,6 @@
 using System;
 using _BazookaBrawl.Data.ChracterData;
+using _ProjectA.Managers;
 using _ProjectA.Scripts.Interface;
 using _ProjectA.Scripts.UI;
 using Data.Interaction;
@@ -26,8 +27,8 @@ namespace _ProjectA.Scripts.Controllers
        
        public Action<PlayerBrain> OnDeathServer;
        public Action OnDeath;
-       public Action<Vector3, float, float> OnRagdoll;
-      
+       
+       
 
        private void Awake()
         {
@@ -48,14 +49,16 @@ namespace _ProjectA.Scripts.Controllers
             _namePlate.UpdateHealthBar((float)_currentHealth / _maxHealth);
         }
         
-
-        public void TakeDamage(int damage)
+        [Server]
+        public void TakeDamage(int damage, InteractionData data)
         {
+            InteractionNumbersManager.Instance.DisplayDamage(damage, data);
             _currentHealth -= damage;
             if(_currentHealth <= 0)
                 Death();
         }
 
+        [Server]
         public void Heal(int heal)
         {
             _currentHealth += heal;

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: a31f26ab68310834fb3bd743945b607a
+timeCreated: 1567979493
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 96011
+  packageName: Audio Manager Pro
+  packageVersion: 1.1.9
+  assetPath: Assets/Plugins/QFSW/Audio Manager Pro/SFXLoopManager.cs
+  uploadId: 475220

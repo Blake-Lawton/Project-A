@@ -2,42 +2,37 @@ using System;
 using _ProjectA.Scripts.Abilities.Mage;
 using _ProjectA.Scripts.Controllers;
 using Data.AbilityData;
+using Data.Interaction;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace _ProjectA.Scripts.Abilities
 {
-    public abstract class BaseAbility : NetworkBehaviour
+    public abstract class BaseAbility : MonoBehaviour
     {
         protected PlayerBrain _brain;
-        protected BaseAbilityData _data;
+        protected BaseAbilityData _baseData;
         protected float _cooldown;
-        [Header("UI")]
-        [SerializeField]private Image _icon;
-        [SerializeField]private Image _fill;
-        [SerializeField]private Text _cooldownText;
+      
+      
 
         public bool OnCooldown => _cooldown > 0;
         public float Cooldown => _cooldown;
-        public BaseAbilityData Data => _data;
+        public BaseAbilityData BaseData => _baseData;
+        
+
         public abstract void UseAbility();
         public abstract void StartCast();
         public abstract void EndAbility();
-        
-        public abstract bool CanCastAbility();
-        public virtual void SetUpAbility()
-        {
-            _icon.sprite = _data.Sprite;
-        }
+        public abstract void Interupt();
+        public abstract bool CanCastAbility(PlayerBrain brain);
         
         public virtual void UpdateCooldown()
         {
             _cooldown -= Time.deltaTime;
-            _fill.fillAmount = _cooldown / _data.Cooldown;
-            _cooldownText.text = _cooldown.ToString();
         }
-        protected virtual void Awake()
+        protected virtual void Start()
         {
             _brain = GetComponentInParent<PlayerBrain>();
         }
@@ -49,5 +44,7 @@ namespace _ProjectA.Scripts.Abilities
 
         public abstract void EndCast();
 
+
+        public abstract void ResolveAbility(InteractionData interaction);
     }
 }

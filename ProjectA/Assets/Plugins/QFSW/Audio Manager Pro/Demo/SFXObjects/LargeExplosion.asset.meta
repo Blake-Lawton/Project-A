@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: db8b4fe9017f7ea48aa3defaae0f1c95
+timeCreated: 1503594217
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 96011
+  packageName: Audio Manager Pro
+  packageVersion: 1.1.9
+  assetPath: Assets/Plugins/QFSW/Audio Manager Pro/Demo/SFXObjects/LargeExplosion.asset
+  uploadId: 475220

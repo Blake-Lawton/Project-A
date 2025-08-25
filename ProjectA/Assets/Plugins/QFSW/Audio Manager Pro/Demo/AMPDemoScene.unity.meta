@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0329c20ddd4a3f44da625a564e44dfd9
+timeCreated: 1503588652
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 96011
+  packageName: Audio Manager Pro
+  packageVersion: 1.1.9
+  assetPath: Assets/Plugins/QFSW/Audio Manager Pro/Demo/AMPDemoScene.unity
+  uploadId: 475220

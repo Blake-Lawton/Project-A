@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 5001054003f85184d8c0009f9a3752cb
+timeCreated: 1502293091
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 96011
+  packageName: Audio Manager Pro
+  packageVersion: 1.1.9
+  assetPath: Assets/Plugins/QFSW/Audio Manager Pro/AMPEventBinder.cs
+  uploadId: 475220

@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using _ProjectA.Scripts.Abilities;
 using _ProjectA.Scripts.UI;
+using _ProjectA.Scripts.Util;
 using Data.AbilityData;
 using Mirror;
 using UnityEngine;
@@ -15,11 +17,12 @@ namespace _ProjectA.Scripts.Controllers
         private PlayerInputActions _input;
         private InputAction _mouse;
         private Camera _camera;
+        private TargetOutline _targetOutline;
         [SerializeField, ReadOnly]private PlayerBrain _target;
-        
-        [SerializeField]private BaseAbility[] _abilities;
-        
-     
+        [SerializeField] private List<BaseAbilityData> _abilityData;
+        [SerializeField]private List<BaseAbility> _abilities;
+
+        [SerializeField] private Transform _abilityHolder;
         
         [Header("Casting Bar")]
         [SerializeField, ReadOnly]  private bool _isCasting;
@@ -34,6 +37,7 @@ namespace _ProjectA.Scripts.Controllers
         public PlayerBrain Target => _target;
         public bool IsCasting => _isCasting;
         public bool HasTarget => _target != null;
+        private TargetOutline TargetOutline => _targetOutline;
 
         private void Awake()
         {
@@ -41,8 +45,17 @@ namespace _ProjectA.Scripts.Controllers
             _camera = Camera.main;
             _input = new PlayerInputActions();
             _mouse = _input.Player.Look;
-            _input.Player.Target.performed += ctx => TargetPlayer();
+            _input.Player.Target.performed += ctx => TargetPlayer(true);
             _input.Player.Ability1.performed += ctx => TryCast(0);
+            _targetOutline = GetComponentInChildren<TargetOutline>();
+            int i = 0;
+            foreach (var abilityData in _abilityData)
+            {
+                var ability = abilityData.EquippedAbility();
+                ability.transform.SetParent(_abilityHolder);
+                _abilities.Add(ability);
+                i++;
+            }
         }
 
 
@@ -58,28 +71,52 @@ namespace _ProjectA.Scripts.Controllers
         }
 
         [Client]
-        private void TargetPlayer()
+        private void TargetPlayer(bool isInput)
         {
             Vector2 mousePos = _mouse.ReadValue<Vector2>();
             Ray ray = _camera.ScreenPointToRay(mousePos);
             
-            // Raycast down from the camera
+            
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f))
             {
                 if (hitInfo.collider.gameObject.TryGetComponent(out PlayerBrain playerBrain))
+                {
+                    if (_target != null)
+                        _target.Ability.TargetOutline.UnTarget();
                     _target = playerBrain;
+                    if(_target.Team == _brain.Team)
+                        _target.Ability.TargetOutline.TargetTeammate();
+                    else
+                        _target.Ability.TargetOutline.TargetEnemy();
+                }
                 else
-                    _target = null;
+                {
+                    if (isInput)
+                    {
+                        if (_target != null)
+                            _target.Ability.TargetOutline.UnTarget();
+                        _target = null;
+                    }
+                       
+                }
+                    
                 
             }
             Debug.Log(" TARGET IS   = " + _target);
-            if(_target != null)
+            
+            
+            if(!isInput)
+                return;
+            
+            if (_target != null)
                 TargetPlayerCmd(_target.NetworkIdentity);
             else
                 UnTargetCmd();
-            
         }
 
+
+        
+        
         [Command]
         private void TargetPlayerCmd(NetworkIdentity target)
         {
@@ -104,8 +141,10 @@ namespace _ProjectA.Scripts.Controllers
         {
             
             var abilityToCast = _abilities[abilityIndex];
+            if (abilityToCast.BaseData.RequireTarget)
+                 TargetPlayer(false);
             
-            if (abilityToCast.CanCastAbility())
+            if (abilityToCast.CanCastAbility(_target))
             {
                 if(isLocalPlayer)
                     StartCastPrediction(abilityIndex);
@@ -113,32 +152,39 @@ namespace _ProjectA.Scripts.Controllers
                 if (isServer)
                     ConfirmCastOnServer(abilityIndex);
             }
-            else
-            {
-                /*if(isLocalPlayer)
-                    CantStartCast(abilityIndex);
-
-                if (isServer)
-                    FailedToCast(abilityIndex);*/
-            }
             
         }
 
         
-        [Client]
+        
         private void StartCastPrediction(int abilityIndex)
         {
-            _isCasting = true;
             _currentAbility = _abilities[abilityIndex];
+            _isCasting = true;
+            
             _namePlate.StartCast(_currentAbility);
             _currentAbility.StartCast();
             _localCastStartTime = NetworkTime.time;
-            TryCastCmd(abilityIndex);
+
+            if (_currentAbility.BaseData.RequireTarget)
+            {
+                TryCastCmd(abilityIndex, _target.NetworkIdentity);
+            }
+            else
+            {
+                TryCastCmd(abilityIndex, null);
+            }
+                
+            
+            
         }
 
         [Command]
-        private void TryCastCmd(int abilityIndex)
+        private void TryCastCmd(int abilityIndex, NetworkIdentity target)
         {
+            if(target != null)
+                _target = target.GetComponent<PlayerBrain>();
+            
             TryCast(abilityIndex);
         }
 
@@ -149,24 +195,26 @@ namespace _ProjectA.Scripts.Controllers
             _currentAbility = _abilities[abilityIndex];
             _currentAbility.StartCast();
             _serverCastStartTime = NetworkTime.time;
-            ConfirmCastOnClients(_serverCastStartTime, abilityIndex);
+            ConfirmCastOnClients(_serverCastStartTime, abilityIndex, _target.NetworkIdentity);
         }
 
         [ClientRpc]
-        private void ConfirmCastOnClients(double startTime, int abilityIndex)
+        private void ConfirmCastOnClients(double startTime, int abilityIndex, NetworkIdentity target)
         {
-           // if (isLocalPlayer)
-                //kinda do something here yeahn?
-            if (isClient)
-                CastOnClients(abilityIndex);
+         
+            if(isLocalPlayer)
+                Debug.Log("ConfirmCastOnServer");
+            else if (isClient)
+                CastOnClients(abilityIndex, target);
             
             
             _serverCastStartTime = startTime;
         }
 
         [Client]
-        private void CastOnClients(int abilityIndex)
+        private void CastOnClients(int abilityIndex, NetworkIdentity target)
         {
+            _target = target.GetComponent<PlayerBrain>();
             _isCasting = true;
             _currentAbility = _abilities[abilityIndex];
             _currentAbility.StartCast();
@@ -187,25 +235,25 @@ namespace _ProjectA.Scripts.Controllers
 
             if (isLocalPlayer)
             {
-                if (_brain.Movement.Moving && _currentAbility.Data.Interruptible)
+                if (_brain.Movement.Moving && _currentAbility.BaseData.Interruptible)
                     InterruptCastLocal();
                 
                 double elapsed = NetworkTime.time - _localCastStartTime;
-                castBarPct = (float)(elapsed / _currentAbility.Data.CastTime);
+                castBarPct = (float)(elapsed / _currentAbility.BaseData.CastTime);
             }
 
 
             if (isServer)
             {
                 double elapsed = NetworkTime.time - _serverCastStartTime;
-                castBarPct = (float)(elapsed / _currentAbility.Data.CastTime);
+                castBarPct = (float)(elapsed / _currentAbility.BaseData.CastTime);
             }
             
             
             if (isClient && !isLocalPlayer)
             {
                 double elapsed = NetworkTime.time - _serverCastStartTime;
-                castBarPct = (float)(elapsed / _currentAbility.Data.CastTime);
+                castBarPct = (float)(elapsed / _currentAbility.BaseData.CastTime);
             }
             
             _namePlate.UpdateCastBar(castBarPct);
@@ -216,6 +264,7 @@ namespace _ProjectA.Scripts.Controllers
 
         private void InterruptCastLocal()
         {
+            _currentAbility.Interupt();
             _isCasting = false;
             _namePlate.Interrupt();
             InterruptCastCmd();
@@ -224,6 +273,7 @@ namespace _ProjectA.Scripts.Controllers
         [Command]
         private void InterruptCastCmd()
         {
+            _currentAbility.Interupt();
             _isCasting = false;
             _namePlate.Interrupt();
             InterruptCastRpc();
@@ -234,6 +284,7 @@ namespace _ProjectA.Scripts.Controllers
         {
             _isCasting = false;
             _namePlate.Interrupt();
+            _currentAbility.Interupt();
         }
 
         private void CompleteCast()
@@ -241,6 +292,11 @@ namespace _ProjectA.Scripts.Controllers
             _namePlate.CompleteCast();
             _currentAbility.EndCast();
             _isCasting = false;
+            
+        }
+
+        public void EquippedAbility(BaseAbility ability)
+        {
             
         }
     }

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 32dbc3cf36fb6d14cafe99a447693247
+timeCreated: 1503593539
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 96011
+  packageName: Audio Manager Pro
+  packageVersion: 1.1.9
+  assetPath: Assets/Plugins/QFSW/Audio Manager Pro/Demo/SFXObjects/Laser.asset
+  uploadId: 475220

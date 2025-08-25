@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c11004dbca0b36e4196c6a4712f2a4cb
+timeCreated: 1503481689
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 96011
+  packageName: Audio Manager Pro
+  packageVersion: 1.1.9
+  assetPath: Assets/Plugins/QFSW/Audio Manager Pro/changelog.txt
+  uploadId: 475220
