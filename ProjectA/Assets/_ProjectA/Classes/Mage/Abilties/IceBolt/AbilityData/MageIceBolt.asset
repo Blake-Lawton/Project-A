@@ -32,3 +32,5 @@ MonoBehaviour:
   _endCastTrigger: EndCast
   _castingVFXPrefab: {fileID: 1327007866463590905, guid: e4fe462ca7a5bde4cbb999739a7478a6, type: 3}
   _onHitVFXPrefab: {fileID: 1571480806720270128, guid: 94a0762f8616675498c99dba4dfcd006, type: 3}
+  _castingSFX: {fileID: 11400000, guid: 242119e888c983f49a2f00609db61745, type: 2}
+  _castedSFX: {fileID: 0}

@@ -138,6 +138,7 @@ public class SFXManager : SoundManager
     public Coroutine PlayFromSFXObjectLibrary(string SFXName, Vector3 Position, Transform Parent = null, bool IsGlobalPosition = true)
     {
         SFXObject DesiredSFXObject = FindSFXObjectInLibrary(SFXName);
+        
         if (DesiredSFXObject != null) { return Play(DesiredSFXObject, Position, Parent, IsGlobalPosition); }
         else { return null; }
     }

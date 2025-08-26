@@ -25,6 +25,10 @@ namespace Data.AbilityData
         [Header("VFX")]
         [SerializeField] private ParticleSystem _castingVFXPrefab;
         [SerializeField] private ParticleSystem _onHitVFXPrefab;
+
+        [Header("SFX")]
+
+        [SerializeField] private SFXObject _castedSFX;
         public TargetedProjectile Projectile => _projectile;
         public float Speed => _speed;
         public int Damage => _damage;
@@ -32,6 +36,7 @@ namespace Data.AbilityData
         public string EndCastTrigger => _endCastTrigger;
         public ParticleSystem CastingVFXPrefab => _castingVFXPrefab;
         public ParticleSystem OnHitVFXPrefab => _onHitVFXPrefab;
+        public SFXObject CastedSFX => _castedSFX;
         public override BaseAbility EquippedAbility()
         {
             var ability = Instantiate(_ability);

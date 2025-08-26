@@ -1,6 +1,7 @@
 using System;
 using _ProjectA.Managers;
 using _ProjectA.Scripts.Controllers;
+using AMPInternal;
 using Data.AbilityData;
 using Data.Interaction;
 using Data.Types;
@@ -19,18 +20,19 @@ namespace _ProjectA.Scripts.Abilities.Mage
         [SerializeField] protected TargetedProjectileData _data;
         private PlayerBrain _target;
         [SerializeField,ReadOnly] private ParticleSystem _castingVFX;
-
+        private AMPAudioSource _castingSFX;
         public TargetedProjectileData Data => _data;
         protected override void Start()
         {
             base.Start();
             _baseData = _data;
             _castingVFX = Instantiate(_data.CastingVFXPrefab, _brain.JointFinder.FindJoint(Joint.LeftHand));
-          
+            _castingSFX = _castingVFX.GetComponent<AMPAudioSource>();
         }
 
         public override void EndCast()
         {
+            _castingSFX.Stop();
             _castingVFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             var firePoint = _brain.JointFinder.FindJoint(Joint.LeftHand);
             var projectile = Instantiate(_data.Projectile, firePoint.position, firePoint.rotation);
@@ -66,7 +68,7 @@ namespace _ProjectA.Scripts.Abilities.Mage
             _castingVFX.Play();
             _target = _brain.Ability.Target;
             _brain.Animation.Animator.SetTrigger(_data.StartCastTrigger);
-            
+            _castingSFX.Play();
         }
         
         public override void EndAbility()
@@ -77,6 +79,8 @@ namespace _ProjectA.Scripts.Abilities.Mage
         public override void Interupt()
         {
             _castingVFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            _castingSFX.Stop();
+            //SFXManager.Main.StopAudio();
         }
 
         public override bool CanCastAbility(PlayerBrain target)
