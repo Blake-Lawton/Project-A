@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using _ProjectA.Scripts.Status;
+using _ProjectA.Scripts.UI;
 using _ProjectA.Status.Active;
 using Data.Interaction;
 using Data.StatusEffectData;
@@ -17,23 +17,33 @@ namespace _ProjectA.Scripts.Controllers
     {
         private List<BaseStatus> _statuses = new List<BaseStatus>();
         private List<BaseStatus> _statusesToRemove = new List<BaseStatus>();
-     
-        [SerializeField,FoldoutGroup("Status")] private bool _stunned;
+        private Dictionary<ParticleSystem, ParticleSystem> _activeStatusVFX = new();
         
-        [SerializeField,FoldoutGroup("Status")] private bool _rooted;
+        [SerializeField]private Transform _statusVFXRoot;
         
+        private NamePlate _namePlate;
+        
+        [SerializeField,FoldoutGroup("Status"), SyncVar] private bool _stunned;
+        [SerializeField,FoldoutGroup("Status"), SyncVar] private bool _rooted;
         [Header("Slow")]
-        [SerializeField,FoldoutGroup("Status")] private bool _slowed;
+        [SerializeField,FoldoutGroup("Status"),SyncVar] private bool _slowed;
        
-        [SerializeField,FoldoutGroup("Status")] private float _currentHighestSlow;
+        [SerializeField,FoldoutGroup("Status"), SyncVar] private float _currentHighestSlow;
         
+        public bool Stunned => _stunned;
+        public bool Rooted => _rooted;
         public List<BaseStatus> Statuses => _statuses;
         
+
         //for now
-        public int DamageAmp = 1;
+        public float DamageAmp = 1;
 
         
-
+        public void SetUp(NamePlate namePlate)
+        {
+            _namePlate = namePlate;
+        }
+        
         public void ApplyStatus(BaseStatusData statusData, InteractionData interaction)
         {
             var existing = _statuses.Find(s => s.Data == statusData && s.Interaction.Perp == interaction.Perp);
@@ -46,6 +56,9 @@ namespace _ProjectA.Scripts.Controllers
             {
                 var newStatus = statusData.CreateStatus(interaction);
                 _statuses.Add(newStatus);
+                //prob could be put into CreatStatus
+                newStatus.SetUpUI(_namePlate.GenerateIcon(newStatus));
+                ApplyStatusVFXIfNeeded(statusData);
                 newStatus.Apply();
             }
         }
@@ -62,23 +75,64 @@ namespace _ProjectA.Scripts.Controllers
             {
                 var status = _statuses.Find(s => s.Data == toRemove.Data && s.Interaction.Perp == toRemove.Interaction.Perp);
                 _statuses.Remove(status);
-                
+                RemoveStatusVFXIfNeeded(toRemove.Data);
             }
+            
             _statusesToRemove.Clear();
-            
-            
             
             foreach (var status in _statuses)
             {
-                status.Tick();
+                status.Handle();
             }
             
+            if(!isServer) return;
             CalculateHighestSlow();
+            IsStunned();
+        }
+
+        private void RemoveStatusVFXIfNeeded(BaseStatusData status)
+        {
+            var prefab = status.StatusVFX;
+            if (prefab == null) return;
+
+            // Only remove if no other status still using it
+            bool stillNeeded = _statuses.Any(s => s.Data.StatusVFX == prefab);
+            if (!stillNeeded && _activeStatusVFX.TryGetValue(prefab, out var vfxInstance))
+            {
+                Destroy(vfxInstance.gameObject,3);
+                vfxInstance.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                _activeStatusVFX.Remove(prefab);
+            }
         }
 
 
+        private void ApplyStatusVFXIfNeeded(BaseStatusData status)
+        {
+            var prefab = status.StatusVFX;
+            if (prefab == null) return;
+
+            // Only spawn if not already active
+            if (!_activeStatusVFX.ContainsKey(prefab))
+            {
+                var vfxInstance = Instantiate(prefab, _statusVFXRoot);
+                _activeStatusVFX[prefab] = vfxInstance;
+            }
+            
+           
+        }
+
+
+        #region StatusStates
+
+        #region Slow
+
+        
+
+      
+       
         private void CalculateHighestSlow()
         {
+            
             _currentHighestSlow = _statuses
                 .OfType<SlowStatus>()            // Only SlowStatus instances
                 .Select(s => s.SlowData.SlowAmount)       // Select their slow values
@@ -86,11 +140,25 @@ namespace _ProjectA.Scripts.Controllers
                 .Max();
             
             _slowed = _currentHighestSlow > 0;
+            
         }
 
         public float SlowFactor()
         {
             return 1 - _currentHighestSlow;
         }
+
+        #endregion
+
+        
+        #region Stun
+
+        private void IsStunned()
+        {
+            _stunned = _statuses.OfType<StunStatus>().Any();
+        }
+        
+        #endregion
+        #endregion
     }
 }

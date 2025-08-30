@@ -250,7 +250,7 @@ namespace AMPInternal
             //Sets up properties of the AudioSource
             ReturnedAudio.SourceVolume = 1f;
             ReturnedAudio.Source.name = Audio.name;
-            ReturnedAudio.Source.time = 0;
+           
             ReturnedAudio.Source.loop = Looping;
             ReturnedAudio.Source.clip = Audio;
             ReturnedAudio.Source.priority = 128;

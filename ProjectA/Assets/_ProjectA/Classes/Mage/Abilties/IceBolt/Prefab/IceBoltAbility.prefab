@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4481581593439487985}
-  - component: {fileID: 47865231791005595}
+  - component: {fileID: 4739514659731028953}
   m_Layer: 0
   m_Name: IceBoltAbility
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &47865231791005595
+--- !u!114 &4739514659731028953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,8 +41,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 6914265819489998813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a50cc5d1a7761704d9d13e701478ccbb, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a1abc1b59cd29b4a9467fd1a94080a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectileData: {fileID: 11400000, guid: de21f8e8b26457746a48507f52bb1572, type: 2}
-  _firePoint: {fileID: 0}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _baseData: {fileID: 11400000, guid: de21f8e8b26457746a48507f52bb1572, type: 2}
+  _castingVFX: {fileID: 0}

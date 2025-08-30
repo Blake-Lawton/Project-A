@@ -1,8 +1,10 @@
 using System.Collections;
+using _ProjectA.Scripts.Abilities;
 using Data.Types;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace _ProjectA.Scripts.Controllers
 {
@@ -23,12 +25,15 @@ namespace _ProjectA.Scripts.Controllers
         private Vector3 _currentVelocity;
         private Vector3 _moveDirection;
         private bool _pressedJump;
-        
+
+        [Header("States")] 
+        [SerializeField, ReadOnly] private RotationState _rotationState;
+        private PlayerBrain _target;
         public Vector3 MoveDirection => _moveDirection;
         public Vector3 Rotation => transform.eulerAngles;
         
         public bool InputJump => _pressedJump;
-        
+        public Vector3 FinalVelocity => _finalVelocity;
         public bool Moving => _finalVelocity != Vector3.zero;
         public CharacterController CC => _cc;
         void Awake()
@@ -89,9 +94,13 @@ namespace _ProjectA.Scripts.Controllers
             
             
             transform.eulerAngles = input.Rotation;
-            _cc.enabled = true;
             _finalVelocity = input.Movement;
-          
+
+            if (_brain.Status.Stunned || _brain.Status.Rooted)
+                _finalVelocity = Vector3.zero;
+            
+            
+            _cc.enabled = true;
             _cc.Move(_finalVelocity * (NetworkServer.sendInterval * _brain.CharacterData.MaxMoveSpeed * _brain.Status.SlowFactor()));
             _cc.enabled = false;
             var state = RecordState(input.Tick);
@@ -129,8 +138,7 @@ namespace _ProjectA.Scripts.Controllers
         
        
         public void RotationInput()
-        { 
-            // Get mouse position
+        {
             Vector2 mousePos = _mouse.ReadValue<Vector2>();
             Ray ray = Camera.main.ScreenPointToRay(mousePos);
 
@@ -138,14 +146,33 @@ namespace _ProjectA.Scripts.Controllers
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f))
             {
                 Vector3 targetPoint = hitInfo.point;
-                // Only rotate on Y axis
                 Vector3 lookDirection = targetPoint - transform.position;
-                lookDirection.y = 0f;
+                lookDirection.y = 0f; // Only rotate on Y axis
 
                 if (lookDirection.sqrMagnitude > 0.001f)
                 {
-                    transform.rotation = Quaternion.LookRotation(lookDirection);
+                    Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+                    float rotationSpeed = 10f; // Adjust speed to taste
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
+            }
+        }
+
+        public void RotationHandle()
+        {
+            
+            if(_brain.Status.Stunned)
+                return;
+            switch (_rotationState)
+            {
+                case RotationState.LockRotation:
+                    break;
+                case RotationState.RegularInput:
+                    RotationInput();
+                    break;
+                case RotationState.LookAtTarget:
+                    LookAtTarget();
+                    break;
             }
         }
         private void Jump(InputAction.CallbackContext callback)
@@ -189,11 +216,27 @@ namespace _ProjectA.Scripts.Controllers
 
         private bool IsGrounded()  => _cc.isGrounded;
         
-       
+        public void ChangeRotationState(RotationState newState, PlayerBrain target = null)
+        {
+            _target = target;
+            _rotationState = newState;
+        }
+
+        private void LookAtTarget()
+        {
+            Vector3 lookDir = _target.transform.position - transform.position;
+            lookDir.y = 0f;
+
+            if (lookDir.sqrMagnitude > 0.001f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(lookDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 20f * Time.deltaTime);
+            }
+        }
         
         #endregion
 
 
-      
+       
     }
 }

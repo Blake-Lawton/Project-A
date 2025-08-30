@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using _ProjectA.Scripts.Helpers;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using Joint = Data.Types.Joint;
 
@@ -8,43 +10,28 @@ namespace _ProjectA.Scripts.Util
 {
     public class JointFinder : SerializedMonoBehaviour
     {
-       [SerializeField,ReadOnly] private Dictionary<Joint, Transform> _joints = new Dictionary<Joint, Transform>();
+       [OdinSerialize,ReadOnly] private Dictionary<Joint, JointHelper> _joints = new Dictionary<Joint, JointHelper>();
 
 
        private void Awake()
        {
-           _joints.Clear();
-
-           var children = GetComponentsInChildren<Transform>(true);
-           var jointNames = (Joint[])Enum.GetValues(typeof(Joint));
-
+           _joints = new Dictionary<Joint, JointHelper>();
+           var children = GetComponentsInChildren<JointHelper>(true);
+           
            foreach (var child in children)
            {
-               if (child.CompareTag("Untagged"))
-                   continue;
-
-               foreach (var jointName in jointNames)
+               if (!_joints.TryAdd(child.Joint, child))
                {
-                   if (child.CompareTag(jointName.ToString()))
-                   {
-                       if (!_joints.ContainsKey(jointName))
-                       {
-                           _joints.Add(jointName, child);
-                       }
-                       else
-                       {
-                           Debug.LogWarning($"Duplicate joint {jointName} found on {child.name}, skipping...");
-                       }
-                   }
+                   Debug.LogWarning($"Duplicate joint {child.Joint} found on {child.name}, skipping...");
                }
            }
        }
 
-       public Transform FindJoint(Joint rightHand)
+       public Transform FindJoint(Joint joint)
        {
-           if(!_joints.ContainsKey(rightHand))
+           if(!_joints.ContainsKey(joint))
                Debug.LogError("WE DONT HAVE THIS JOINT MOTHER FUCKER BITCH BOI");
-           return _joints[rightHand];
+           return _joints[joint].transform;
        }
     }
 }

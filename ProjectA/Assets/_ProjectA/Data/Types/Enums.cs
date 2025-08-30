@@ -11,12 +11,63 @@ namespace Data.Types
     {
         Enemy,
         Ally,
-        Both
+        Both,
+        None
     }
 
     public enum Joint
     {
         RightHand,
         LeftHand,
+        SwordTip
+    }
+
+    public enum StatusVisuals
+    {
+        IceSlow,
+    }
+
+    public enum CastResult
+    {
+        Success,
+        NoTarget,
+        CantTargetSelf,
+        CantTargetEnemy,
+        CantTargetAlly,
+        OutOfRange,
+        OnCooldown,
+        CrowdControlled,
+        Moving,
+        OnGlobalCd,
+        IsCastingAlready,
+        NotInFront,
+        CantInterrupt
+    }
+
+    public enum GreatSwordSfx
+    {
+        StrikeSwing,
+        StrikeImpact
+    }
+
+    public enum RotationState
+    {
+        RegularInput,
+        LookAtTarget,
+        LockRotation,
+    }
+
+    public enum MovementState
+    {
+        NoInput,
+        Input,
+        NoMovement,
+    }
+
+    public enum AbilityType
+    {
+        Damage,
+        Heal,
+        Shield,
     }
 }

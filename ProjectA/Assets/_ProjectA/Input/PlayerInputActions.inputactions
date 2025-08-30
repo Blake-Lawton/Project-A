@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Ability2",
+                    "type": "Button",
+                    "id": "2755d359-dfb3-4a7b-9122-a4964ac1a491",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Ability3",
                     "type": "Button",
                     "id": "214245da-5d4a-4a59-84f5-efc6f53a7182",
@@ -255,8 +264,19 @@
                 },
                 {
                     "name": "",
-                    "id": "33bf0a4f-bf39-42fb-8125-105611f2a764",
+                    "id": "b2c22f50-e336-4101-aa24-e483c57de88f",
                     "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ability2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "33bf0a4f-bf39-42fb-8125-105611f2a764",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -267,7 +287,7 @@
                 {
                     "name": "",
                     "id": "0af85854-91d9-4fa8-beb7-07cc8e6ceb0a",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -278,7 +298,7 @@
                 {
                     "name": "",
                     "id": "a3f7f3b6-7e5b-4ee2-a418-08ded0f9c825",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -289,7 +309,7 @@
                 {
                     "name": "",
                     "id": "8717d34d-0a42-44d7-a4ad-c2fb96a78c12",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

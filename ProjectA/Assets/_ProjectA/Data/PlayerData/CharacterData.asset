@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af6c7ceadbb9dd46b9049c545306a65, type: 3}
   m_Name: CharacterData
   m_EditorClassIdentifier: 
-  _name: 
+  _name: Mage
   _health: 150
-  _maxMoveSpeed: 10
+  _maxMoveSpeed: 5
   _groundAcceleration: 5
   _groundDeceleration: 5
   _jumpForce: 5

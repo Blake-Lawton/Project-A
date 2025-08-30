@@ -50,9 +50,9 @@ namespace _ProjectA.Scripts.Controllers
         }
         
         [Server]
-        public void TakeDamage(int damage, InteractionData data)
+        public void TakeDamage(int damage)
         {
-            InteractionNumbersManager.Instance.DisplayDamage(damage, data);
+          
             _currentHealth -= damage;
             if(_currentHealth <= 0)
                 Death();
@@ -91,6 +91,10 @@ namespace _ProjectA.Scripts.Controllers
             _namePlate.Show(true);
         }
 
-       
+
+        public void GiveShield(int abilityDataHealthChange, InteractionData data)
+        {
+            Debug.Log("SHIELD STUFF HERE");
+        }
     }
 }

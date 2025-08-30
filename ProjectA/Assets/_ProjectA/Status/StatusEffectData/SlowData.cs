@@ -1,5 +1,4 @@
 using _ProjectA.Scripts.Controllers;
-using _ProjectA.Scripts.Status;
 using _ProjectA.Status.Active;
 using Data.Interaction;
 using Data.StatusEffectData;

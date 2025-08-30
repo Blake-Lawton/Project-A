@@ -1,5 +1,6 @@
 using System;
 using _ProjectA.Scripts.Controllers;
+using _ProjectA.Scripts.UI;
 using Data.Interaction;
 using Data.StatusEffectData;
 using Sirenix.Serialization;
@@ -16,6 +17,7 @@ namespace _ProjectA.Status.Active
         [SerializeField] protected float _duration;
         [SerializeField] protected float _currentDuration;
         private InteractionData _interaction;
+        protected StatusNameplateIcon _nameplateIcon;
         public InteractionData Interaction => _interaction;
         public BaseStatusData Data => _data;
         public virtual void SetUp(InteractionData interaction, BaseStatusData data)
@@ -33,8 +35,15 @@ namespace _ProjectA.Status.Active
 
         public virtual void End()
         {
+            _nameplateIcon.Remove();
             _target.Status.RemoveStatus(this);
         }
-        public virtual void Tick() { }
+
+        public abstract void Handle();
+
+        public void SetUpUI(StatusNameplateIcon icon)
+        {
+            _nameplateIcon = icon;
+        }
     }
 }

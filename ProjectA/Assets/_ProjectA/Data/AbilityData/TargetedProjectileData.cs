@@ -1,21 +1,22 @@
+using _ProjectA.Data.AbilityData;
 using _ProjectA.Managers;
 using _ProjectA.Scripts.Abilities;
 using _ProjectA.Scripts.Abilities.Mage;
 using _ProjectA.Scripts.Controllers;
 using Data.Interaction;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Data.AbilityData
 {
-    [CreateAssetMenu(fileName = "ProjectileAbilityData", menuName = "Scriptable Objects/Projectile Ability Data")]
-    public class TargetedProjectileData : BaseAbilityData
+    [CreateAssetMenu(fileName = "ProjectileAbilityData", menuName = "Scriptable Objects/Abilities/Projectile Ability Data")]
+    public class TargetedProjectileData : TargetedAbilityData
     {
-        [Header("Projectile Data")] 
-        [SerializeField] private TargetedProjectileAbility _ability;
+        [Title("Projectile Data")] 
+        [SerializeField] private TargetedAbility _ability;
         [SerializeField] private TargetedProjectile _projectile;
        
-        [SerializeField] private int _damage;
         [SerializeField] private float _speed;
         
         [Header("Animation")]
@@ -27,16 +28,17 @@ namespace Data.AbilityData
         [SerializeField] private ParticleSystem _onHitVFXPrefab;
 
         [Header("SFX")]
-
+        [ExternPropertyAttributes.InfoBox("The casting Loop is found on the casting VFX because the audio system is ass")]
         [SerializeField] private SFXObject _castedSFX;
+        [SerializeField] private SFXObject _onHitSFX;
         public TargetedProjectile Projectile => _projectile;
         public float Speed => _speed;
-        public int Damage => _damage;
         public string StartCastTrigger => _startCastTrigger;
         public string EndCastTrigger => _endCastTrigger;
         public ParticleSystem CastingVFXPrefab => _castingVFXPrefab;
         public ParticleSystem OnHitVFXPrefab => _onHitVFXPrefab;
         public SFXObject CastedSFX => _castedSFX;
+        public SFXObject OnHitSFX => _onHitSFX;
         public override BaseAbility EquippedAbility()
         {
             var ability = Instantiate(_ability);

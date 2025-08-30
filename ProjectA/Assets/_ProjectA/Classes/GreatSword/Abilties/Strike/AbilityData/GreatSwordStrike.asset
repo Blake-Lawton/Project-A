@@ -1,0 +1,172 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dfc54d6f1a9fa741ac8b72f764982f6, type: 3}
+  m_Name: GreatSwordStrike
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: d2e851b70c585554e86751fc128f5ea0, type: 2}
+    - {fileID: 11400000, guid: 5f4e1e2b43b3e4f40b1daf7ac5c1a428, type: 2}
+    - {fileID: 11400000, guid: 03ba393431d51f24899494933ff30021, type: 2}
+    - {fileID: 3262867802644006539, guid: c258b15b94ddbd948968d0853164edc5, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _statusEffects
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Data.StatusEffectData.BaseStatusData,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _animations
+      Entry: 7
+      Data: 1|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 2|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Strike
+    - Name: $v
+      Entry: 1
+      Data: Strike
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _SFX
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[SFXObject,
+        Assembly-CSharp-firstpass]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 2
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Swing
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Impact
+    - Name: $v
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _VFX
+      Entry: 7
+      Data: 4|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[_ProjectA.Scripts.Util.VFXSpawner,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 2
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Strike
+    - Name: $v
+      Entry: 7
+      Data: 5|_ProjectA.Scripts.Util.VFXSpawner, Assembly-CSharp
+    - Name: _vfxPrefab
+      Entry: 10
+      Data: 3
+    - Name: _destroyDelay
+      Entry: 4
+      Data: 5
+    - Name: _spawnTime
+      Entry: 4
+      Data: 0.2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _sprite: {fileID: 21300000, guid: 96476a219e817a44a92b186e6710dd43, type: 3}
+  _name: Strike
+  _cooldown: 0
+  _castTime: 0.5
+  _type: 0
+  _healthChange: 5
+  _showCastBar: 0
+  _targetType: 0
+  _isGlobal: 1
+  _targetSelf: 0
+  _requireTarget: 1
+  _standStill: 0
+  _interruptible: 0
+  _canInterrupt: 0
+  _range: 3
+  _ability: {fileID: 3805582125285845942, guid: ffa986e578df0c0469cd08e87fc956bf, type: 3}
+  _strikeTime: 0.4

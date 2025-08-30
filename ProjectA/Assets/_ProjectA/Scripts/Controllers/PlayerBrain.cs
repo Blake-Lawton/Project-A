@@ -62,11 +62,13 @@ namespace _ProjectA.Scripts.Controllers
             if(!_isDummy)
                 NetworkManagerA.Instance.AddPlayer(this);
             
-            NamePlate namePlate = Instantiate(_namePlatePrefab, ScreenSpaceCanvas.Instance.transform);
+            NamePlate namePlate = Instantiate(_namePlatePrefab, NameplateCanvas.Instance.transform);
             _nameplate = namePlate;
             namePlate.SetUp(transform);
             _health.SetUp(namePlate, _characterData);
             _ability.SetUp(namePlate);
+            _status.SetUp(namePlate);
+
         }
 
         private void OnDestroy()
@@ -116,7 +118,7 @@ namespace _ProjectA.Scripts.Controllers
           
           if (isLocalPlayer )
           {
-              _movement.RotationInput();
+              _movement.RotationHandle();
               _movement.Handle();
               
               _animation.Handle();

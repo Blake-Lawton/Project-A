@@ -4,9 +4,11 @@ using _ProjectA.Scripts.Abilities;
 using _ProjectA.Scripts.UI;
 using _ProjectA.Scripts.Util;
 using Data.AbilityData;
+using Data.Types;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _ProjectA.Scripts.Controllers
@@ -26,42 +28,54 @@ namespace _ProjectA.Scripts.Controllers
         
         [Header("Casting Bar")]
         [SerializeField, ReadOnly]  private bool _isCasting;
-        [SerializeField, ReadOnly] private double _localCastStartTime;
-        [SerializeField, ReadOnly] private double _serverCastStartTime;
+        
         private NamePlate _namePlate;
 
+
         [Header("Ability")]
-        [SerializeField, ReadOnly]  private float _globalCd;
+        [SerializeField] private float _globalCd = .75f;
+        [SerializeField, ReadOnly]  private float _currentGlobalCd;
         [SerializeField, ReadOnly] private BaseAbility _currentAbility;
-        [SerializeField, ReadOnly] public bool OnGlobalCd => _globalCd > 0;
+        [SerializeField, ReadOnly] private float _castTime;
+        public float CastTime => _castTime;
+        [SerializeField, ReadOnly] public bool OnGlobalCd => _currentGlobalCd > 0;
         public PlayerBrain Target => _target;
         public bool IsCasting => _isCasting;
         public bool HasTarget => _target != null;
         private TargetOutline TargetOutline => _targetOutline;
+        public float CurrentGlobalCd => _currentGlobalCd;
+        public float GlobalCd => _globalCd;
 
         private void Awake()
         {
-            _brain = GetComponent<PlayerBrain>();
+            
             _camera = Camera.main;
             _input = new PlayerInputActions();
             _mouse = _input.Player.Look;
             _input.Player.Target.performed += ctx => TargetPlayer(true);
             _input.Player.Ability1.performed += ctx => TryCast(0);
-            _targetOutline = GetComponentInChildren<TargetOutline>();
-            int i = 0;
-            foreach (var abilityData in _abilityData)
-            {
-                var ability = abilityData.EquippedAbility();
-                ability.transform.SetParent(_abilityHolder);
-                _abilities.Add(ability);
-                i++;
-            }
+            _input.Player.Ability2.performed += ctx => TryCast(1);
+           
         }
 
 
         public void SetUp(NamePlate namePlate)
         {
             _namePlate = namePlate;
+
+            int i = 0;
+            foreach (var abilityData in _abilityData)
+            {
+                var ability = abilityData.EquippedAbility();
+                ability.transform.SetParent(_abilityHolder);
+                ability.SetUp();
+                ability.SetUpUI(PlayerUICanvas.Instance.AbilityUIController.AbilityIcons[i]);
+                _abilities.Add(ability);
+                i++;
+            }
+            _brain = GetComponent<PlayerBrain>();
+            _targetOutline = GetComponentInChildren<TargetOutline>();
+            Debug.Log(_targetOutline.name);
         }
         
         private void Start()
@@ -143,19 +157,78 @@ namespace _ProjectA.Scripts.Controllers
             var abilityToCast = _abilities[abilityIndex];
             if (abilityToCast.BaseData.RequireTarget)
                  TargetPlayer(false);
-            
-            if (abilityToCast.CanCastAbility(_target))
-            {
-                if(isLocalPlayer)
-                    StartCastPrediction(abilityIndex);
 
-                if (isServer)
-                    ConfirmCastOnServer(abilityIndex);
+
+            switch (abilityToCast.CanCastAbility(_target, _currentAbility) )
+            {
+                case CastResult.Success:
+                    if(!CheckStatus())
+                        return;
+                    
+                    _currentGlobalCd = _globalCd;
+                
+                    if(isLocalPlayer)
+                        StartCastPrediction(abilityIndex);
+
+                    if (isServer)
+                        ConfirmStartCastOnServer(abilityIndex);
+                    
+                    
+                    break;
+                case CastResult.NoTarget:
+                    Debug.LogWarning("Casting Failed: No Target");
+                    break;
+                case CastResult.CantTargetSelf:
+                    Debug.LogWarning("Casting Failed: Cannot Target Self");
+                    break;
+                case CastResult.CantTargetEnemy:
+                    Debug.LogWarning("Casting Failed: Cannot Target Enemy");
+                    break;
+                case CastResult.CantTargetAlly:
+                    Debug.LogWarning("Casting Failed: Cannot Target Ally");
+                    break;
+                case CastResult.OutOfRange:
+                    Debug.LogWarning("Casting Failed: Target Out of Range");
+                    break;
+                case CastResult.OnCooldown:
+                    Debug.LogWarning("Casting Failed: Ability On Cooldown");
+                    break;
+                case CastResult.CrowdControlled:
+                    Debug.LogWarning("Casting Failed: Caster is Crowd Controlled");
+                    break;
+                case CastResult.Moving:
+                    Debug.LogWarning("Casting Failed: Cannot Cast While Moving");
+                    break;
+                case CastResult.IsCastingAlready:
+                    Debug.LogWarning("Casting Failed: Cannot Cast While Casting");
+                    break;
+                case CastResult.OnGlobalCd:
+                    Debug.LogWarning("Casting Failed: Cannot Cast While Global CD");
+                    break;
+                case CastResult.NotInFront:
+                    Debug.LogWarning("Casting Failed: Target is not in front of player");
+                    break;
+                case CastResult.CantInterrupt:
+                    Debug.LogWarning("Casting Failed: Cannot Interrupt Current Ability");
+                    break;
+                default:
+                    Debug.LogWarning("Casting Failed: Unknown Reason");
+                    break;
             }
+           
             
         }
 
-        
+        private bool CheckStatus()
+        {
+            var status = _brain.Status;
+            if (status.Stunned)
+            {
+                Debug.LogWarning("Casting Failed: Stunned");
+                return false;
+            }
+            return true;
+        }
         
         private void StartCastPrediction(int abilityIndex)
         {
@@ -164,7 +237,7 @@ namespace _ProjectA.Scripts.Controllers
             
             _namePlate.StartCast(_currentAbility);
             _currentAbility.StartCast();
-            _localCastStartTime = NetworkTime.time;
+           
 
             if (_currentAbility.BaseData.RequireTarget)
             {
@@ -189,26 +262,23 @@ namespace _ProjectA.Scripts.Controllers
         }
 
         [Server]
-        private void ConfirmCastOnServer(int abilityIndex)
+        private void ConfirmStartCastOnServer(int abilityIndex)
         {
             _isCasting = true;
             _currentAbility = _abilities[abilityIndex];
             _currentAbility.StartCast();
-            _serverCastStartTime = NetworkTime.time;
-            ConfirmCastOnClients(_serverCastStartTime, abilityIndex, _target.NetworkIdentity);
+            if(!isServer)
+                ConfirmStartCastOnClients(abilityIndex, _target.NetworkIdentity);
         }
 
         [ClientRpc]
-        private void ConfirmCastOnClients(double startTime, int abilityIndex, NetworkIdentity target)
+        private void ConfirmStartCastOnClients(int abilityIndex, NetworkIdentity target)
         {
-         
             if(isLocalPlayer)
                 Debug.Log("ConfirmCastOnServer");
             else if (isClient)
                 CastOnClients(abilityIndex, target);
             
-            
-            _serverCastStartTime = startTime;
         }
 
         [Client]
@@ -223,38 +293,20 @@ namespace _ProjectA.Scripts.Controllers
 
         public void Handle()
         {
-            /*foreach (var ability in _abilities)
-                ability.Handle();*/
+            foreach (var ability in _abilities)
+                ability.Handle();
 
+            _currentGlobalCd -= Time.deltaTime;
+            
             
             if(!_isCasting)
                 return;
-
-            
-            var castBarPct = 0f;
-
-            if (isLocalPlayer)
-            {
-                if (_brain.Movement.Moving && _currentAbility.BaseData.Interruptible)
-                    InterruptCastLocal();
-                
-                double elapsed = NetworkTime.time - _localCastStartTime;
-                castBarPct = (float)(elapsed / _currentAbility.BaseData.CastTime);
-            }
-
-
-            if (isServer)
-            {
-                double elapsed = NetworkTime.time - _serverCastStartTime;
-                castBarPct = (float)(elapsed / _currentAbility.BaseData.CastTime);
-            }
             
             
-            if (isClient && !isLocalPlayer)
-            {
-                double elapsed = NetworkTime.time - _serverCastStartTime;
-                castBarPct = (float)(elapsed / _currentAbility.BaseData.CastTime);
-            }
+            _castTime += Time.deltaTime;
+            _currentAbility.Casting(_castTime);
+            
+            var castBarPct = _castTime / _currentAbility.BaseData.CastTime;
             
             _namePlate.UpdateCastBar(castBarPct);
 
@@ -262,10 +314,12 @@ namespace _ProjectA.Scripts.Controllers
                 CompleteCast();
         }
 
-        private void InterruptCastLocal()
+        public void InterruptCastLocal()
         {
-            _currentAbility.Interupt();
+            Debug.Log("WE INTERUPPEt");
+            _currentAbility.Interrupt();
             _isCasting = false;
+            _castTime = 0;
             _namePlate.Interrupt();
             InterruptCastCmd();
         }
@@ -273,8 +327,9 @@ namespace _ProjectA.Scripts.Controllers
         [Command]
         private void InterruptCastCmd()
         {
-            _currentAbility.Interupt();
+            _currentAbility.Interrupt();
             _isCasting = false;
+            _castTime = 0;
             _namePlate.Interrupt();
             InterruptCastRpc();
         }
@@ -284,20 +339,23 @@ namespace _ProjectA.Scripts.Controllers
         {
             _isCasting = false;
             _namePlate.Interrupt();
-            _currentAbility.Interupt();
+            _currentAbility.Interrupt();
+            _castTime = 0;
         }
 
         private void CompleteCast()
         {
-            _namePlate.CompleteCast();
+            _namePlate.CompleteCast(_currentAbility);
             _currentAbility.EndCast();
             _isCasting = false;
-            
-        }
+            _castTime = 0;
 
-        public void EquippedAbility(BaseAbility ability)
+        }
+        
+        [ClientRpc]
+        public void ConfirmHit()
         {
-            
+            _currentAbility.ConfirmHit();
         }
     }
 }

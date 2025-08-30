@@ -44,5 +44,15 @@ namespace _ProjectA.Managers
             DamageNumber dn = _standardDamageNumber.Spawn(victim.transform.position, damage);
             dn.SetAnchoredPosition(victim.GetComponent<PlayerBrain>().NamePlate.GetComponent<RectTransform>(), Vector2.zero);
         }
+
+        public void DisplayHeal(int abilityDataHealthChange, InteractionData data)
+        {
+            Debug.Log("EELS");
+        }
+
+        public void DisplayShield(int abilityDataHealthChange, InteractionData data)
+        {
+            Debug.Log("DISPLAY SHIELD");
+        }
     }
 }
