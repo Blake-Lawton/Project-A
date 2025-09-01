@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GameOverExplosion
   m_EditorClassIdentifier: 
   CollapseEditions: 0
-  SFXName: Game Over Explosion
+  SFXName: GameOverExplosion
   SFXLayers:
-  - LayerName: Game Over Explosion
+  - LayerName: GameOverExplosion
     SFX: {fileID: 8300000, guid: 63202f26b0662b14c8e710a2e3a2e19e, type: 3}
     RandomizeVolume: 1
     FixedVolume: 1

@@ -385,7 +385,7 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 9111554107618216862, guid: 8b9bc4fb52e1cce47a3c35e6451b1735, type: 3}
+  playerPrefab: {fileID: 5165097297084470920, guid: 9ca776f142b51464b95273799d214857, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
@@ -2527,7 +2527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _networkManager: {fileID: 177925080}
-  _playerPrefab: {fileID: 7700471912092263789, guid: 8b9bc4fb52e1cce47a3c35e6451b1735, type: 3}
+  _playerPrefab: {fileID: 5981115553592965243, guid: 9ca776f142b51464b95273799d214857, type: 3}
 --- !u!1 &1937359121
 GameObject:
   m_ObjectHideFlags: 0
@@ -2995,6 +2995,7 @@ GameObject:
   - component: {fileID: 2124153849}
   - component: {fileID: 2124153850}
   - component: {fileID: 2124153851}
+  - component: {fileID: 2124153852}
   m_Layer: 0
   m_Name: SFXManager
   m_TagString: Untagged
@@ -3051,6 +3052,22 @@ MonoBehaviour:
   ScenePersistent: 0
   CollapseLibrary: 1
   TrackLibrary: []
+--- !u!114 &2124153852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124153848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13881fb9b033c344182aa84be5d4861c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localVolume: 0.8
+  _nonLocalVolume: 0.5
+  _localPriority: 50
+  _nonLocalPriority: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -38,9 +38,9 @@ namespace _ProjectA.Scripts.Abilities
                 
         }
 
-        public abstract void UseAbility();
+      
         public abstract void StartCast();
-        public abstract void EndAbility();
+      
         public abstract void Interrupt();
         public abstract void ConfirmHit();
 
@@ -92,6 +92,11 @@ namespace _ProjectA.Scripts.Abilities
                 return false;
             }
 
+            if (target == _brain && _baseData.TargetSelf)
+            {
+                result = CastResult.Success;
+                return true;
+            }
             switch (_baseData.TargetType)
             {
                 case TargetType.Ally:

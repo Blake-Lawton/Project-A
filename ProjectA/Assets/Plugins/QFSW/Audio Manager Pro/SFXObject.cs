@@ -13,6 +13,7 @@ public class SFXObject : ScriptableObject
     [Tooltip("(Optional) The name of this SFXObject.")]
     public string SFXName;
 
+    
     /// <summary>The different SFXLayers in this SFXObject.</summary>
     [Tooltip("The different SFXLayers in this SFXObject.")]
     public SFXLayer[] SFXLayers = new SFXLayer[1];
@@ -104,6 +105,7 @@ public class SFXObject : ScriptableObject
     /// <summary>Constructs a new empty SFXObject.</summary>
     public SFXObject()
     {
+       
         SFXLayers[0].FixedVolume = 1f;
         SFXLayers[0].FixedPitch = 1f;
         SFXLayers[0].MinVolume = 0.5f;
@@ -115,6 +117,10 @@ public class SFXObject : ScriptableObject
         SFXLayers[0].MaxDistance = 500;
     }
 
+    public void SetPriorty(int prio)
+    {
+        SFXLayers[0].Priority = prio;
+    }
     /// <summary>Determines how long this SFXObject will be delayed for.</summary>
     /// <returns>The delay duration in seconds.</returns>
     public float GetDelayDuration()
@@ -150,7 +156,7 @@ public class SFXObject : ScriptableObject
         }
         else { return FixedPitch; }
     }
-
+    
     /// <summary>Plays the SFXObject.</summary>
     /// <param name="DelayDuration">The duration of the delay before the SFXObject is played.</param>
     /// <returns>The Coroutine for delaying this SFXObject (null if no delay is applied).</returns>

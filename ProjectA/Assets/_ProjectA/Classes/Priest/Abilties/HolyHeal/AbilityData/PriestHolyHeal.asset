@@ -1,0 +1,191 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf3e86d75e5d3bd41a4a5dc02ee92578, type: 3}
+  m_Name: PriestHolyHeal
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 117c61390899e0749844d2a6349bb817, type: 2}
+    - {fileID: 3668474596188510865, guid: 9e5c6aed482a08e41a29ba38939c0a1f, type: 3}
+    - {fileID: 221553732993880071, guid: 0ced40189347d054588156810ea36d23, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _statusEffects
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Data.StatusEffectData.BaseStatusData,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _animations
+      Entry: 7
+      Data: 1|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 2|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: StartCast
+    - Name: $v
+      Entry: 1
+      Data: StartCast
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: EndCast
+    - Name: $v
+      Entry: 1
+      Data: EndCastHeal
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _SFX
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[SFXObject,
+        Assembly-CSharp-firstpass]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 2
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: OnHit
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _VFX
+      Entry: 7
+      Data: 4|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[_ProjectA.Scripts.Util.VFXSpawner,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 2
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Casting
+    - Name: $v
+      Entry: 7
+      Data: 5|_ProjectA.Scripts.Util.VFXSpawner, Assembly-CSharp
+    - Name: _vfxPrefab
+      Entry: 10
+      Data: 1
+    - Name: _destroyDelay
+      Entry: 4
+      Data: 0
+    - Name: _spawnTime
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: OnHit
+    - Name: $v
+      Entry: 7
+      Data: 6|_ProjectA.Scripts.Util.VFXSpawner, Assembly-CSharp
+    - Name: _vfxPrefab
+      Entry: 10
+      Data: 2
+    - Name: _destroyDelay
+      Entry: 4
+      Data: 5
+    - Name: _spawnTime
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _sprite: {fileID: 21300000, guid: 349cb901f0379fe458415dea963b911e, type: 3}
+  _name: HolyHeal
+  _cooldown: 2
+  _castTime: 1
+  _type: 1
+  _healthChange: 10
+  _showCastBar: 1
+  _targetType: 1
+  _isGlobal: 1
+  _targetSelf: 1
+  _requireTarget: 1
+  _standStill: 1
+  _interruptible: 1
+  _canInterrupt: 0
+  _range: 10
+  _ability: {fileID: 3502035959496195483, guid: 10b9b982416b1cd468af84ebbc7205f1, type: 3}

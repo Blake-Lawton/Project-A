@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -9,6 +10,7 @@ namespace _ProjectA.Scripts.Util
     {
         [SerializeField] private VFXHelper _vfxPrefab;
         [SerializeField] private float _destroyDelay;
+        [InfoBox("This is for timing your vfx")]
         [SerializeField] private float _spawnTime;
         
         private Transform _spawnPoint;
@@ -20,6 +22,14 @@ namespace _ProjectA.Scripts.Util
         {
             _spawnPoint = spawnPoint;
             var vfx = Object.Instantiate(_vfxPrefab, _spawnPoint.position, _spawnPoint.rotation);
+            vfx.SetUp(this);
+            return vfx;
+        }
+        
+        public VFXHelper SpawnParentedVFX(Transform spawnPoint)
+        {
+            _spawnPoint = spawnPoint;
+            var vfx = Object.Instantiate(_vfxPrefab, spawnPoint);
             vfx.SetUp(this);
             return vfx;
         }

@@ -96,7 +96,7 @@ namespace AMPInternal
         public System.Action<bool> OnMuteChange = (bool x) => { };
 
         /// <summary>All of the active AudioObjects owned by the SoundManager.</summary>
-        protected List<AudioObject> ActiveAudio = new List<AudioObject>();
+        public List<AudioObject> ActiveAudio = new List<AudioObject>();
 
         /// <summary>All of the inactive AudioObjects owned by the SoundManager</summary>
         protected List<AudioObject> InactiveAudio = new List<AudioObject>();
@@ -226,7 +226,7 @@ namespace AMPInternal
         public AudioObject StartAudio(AudioClip Audio, bool Looping, bool AutoPlay = true)
         {
             AudioObject ReturnedAudio = new AudioObject(ManagerType);
-
+            
             //If inactive AudioObjects are available
             if (InactiveAudio.Count > 0)
             {

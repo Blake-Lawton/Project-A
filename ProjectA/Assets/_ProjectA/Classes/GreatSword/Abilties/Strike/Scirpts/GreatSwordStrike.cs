@@ -1,5 +1,7 @@
+using _ProjectA.Data.AbilityData;
 using _ProjectA.Managers;
-using _ProjectA.Scripts.Abilities.TargtedMeleeAbiltiy;
+using _ProjectA.Scripts.Abilities.Mage;
+ using _ProjectA.Scripts.Managers;
 using _ProjectA.Scripts.Util;
 using Data.Interaction;
 using Data.Types;
@@ -8,10 +10,13 @@ using Joint = Data.Types.Joint;
 
 namespace _ProjectA.Classes.GreatSword.Abilties.Strike.Scirpts
 {
-    public class GreatSwordStrike : BasicTargetedMeleeAbility
+    public class GreatSwordStrike : TargetedAbility
     {
+        protected TargetedMeleeData TargetedMeleeData => (TargetedMeleeData)_baseData;
         [SerializeField] private Transform _spawnPoint;
         private bool _hasStrike;
+
+     
 
         public override void StartCast()
         {
@@ -19,13 +24,20 @@ namespace _ProjectA.Classes.GreatSword.Abilties.Strike.Scirpts
             _hasStrike = false;
             _brain.Animation.Animator.SetTrigger(TargetedMeleeData.Animations["Strike"]);
             _brain.Movement.ChangeRotationState(RotationState.LookAtTarget, _target);
-            SFXManager.Main.Play(TargetedMeleeData.SFX["Swing"]);
+            SFXManagerWrapper.Instance.Play(TargetedMeleeData.SFX["Swing"],transform.position, _brain.isLocalPlayer);
         }
+
+   
 
         public override void Casting(float castTime)
         {
             if(castTime >= TargetedMeleeData.StrikeTime)
                 Strike();
+        }
+
+        public override void EndCast()
+        {
+            
         }
 
 
@@ -48,7 +60,7 @@ namespace _ProjectA.Classes.GreatSword.Abilties.Strike.Scirpts
         public override void ConfirmHit()
         {
             TargetedMeleeData.VFX["Strike"].SpawnVFX(_spawnPoint);
-            SFXManager.Main.Play(TargetedMeleeData.SFX["Impact"]);
+            SFXManagerWrapper.Instance.Play(TargetedMeleeData.SFX["Impact"],transform.position, _brain.isLocalPlayer);
         }
     }
 }

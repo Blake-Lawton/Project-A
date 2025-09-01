@@ -267,7 +267,7 @@ namespace _ProjectA.Scripts.Controllers
             _isCasting = true;
             _currentAbility = _abilities[abilityIndex];
             _currentAbility.StartCast();
-            if(!isServer)
+            if(isServer && !isLocalPlayer)
                 ConfirmStartCastOnClients(abilityIndex, _target.NetworkIdentity);
         }
 
@@ -276,12 +276,12 @@ namespace _ProjectA.Scripts.Controllers
         {
             if(isLocalPlayer)
                 Debug.Log("ConfirmCastOnServer");
-            else if (isClient)
+            else 
                 CastOnClients(abilityIndex, target);
             
         }
 
-        [Client]
+        
         private void CastOnClients(int abilityIndex, NetworkIdentity target)
         {
             _target = target.GetComponent<PlayerBrain>();
@@ -355,6 +355,8 @@ namespace _ProjectA.Scripts.Controllers
         [ClientRpc]
         public void ConfirmHit()
         {
+            if(_currentAbility == null)
+                return;
             _currentAbility.ConfirmHit();
         }
     }

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a8409a3381b91cf429c44ae2646bd7ba
+timeCreated: 1577109101
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 186463
+  packageName: Script Wizard Anim Set
+  packageVersion: 1.21
+  assetPath: Assets/Script_Wizard_AnimSet/ScenePreview/Script_Wizard_AnimSet.unity
+  uploadId: 708657

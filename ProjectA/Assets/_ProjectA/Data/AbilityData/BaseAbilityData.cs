@@ -64,5 +64,29 @@ namespace Data.AbilityData
         public AbilityType Type => _type;
         public int HealthChange => _healthChange;
         public abstract BaseAbility EquippedAbility();
+
+        public SFXObject FindSFX(string sfxKey)
+        {
+            if(SFX.ContainsKey(sfxKey))
+                return _SFX[sfxKey];
+            else
+            {
+                Debug.LogError("Unable to find SFX with key " + sfxKey);
+                return null;
+            }
+        }
+
+        public VFXSpawner FindVFX(string vfxKey)
+        {
+            if(_VFX.ContainsKey(vfxKey))
+                return _VFX[vfxKey];
+            else
+            {
+                Debug.LogError("Unable to find VFX with key " + vfxKey);
+                return null;
+            }
+        }
+        
     }
+  
 }

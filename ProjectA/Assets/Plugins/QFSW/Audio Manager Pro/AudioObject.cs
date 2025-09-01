@@ -8,6 +8,7 @@ namespace AMPInternal
     /// <summary>Container and wrapper for an AudioSource used by MusicManager and SFXManager.</summary>
     public class AudioObject
     {
+        public string Name;
         /// <summary>Different types of audio.</summary>
         public enum SoundType
         {

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5b6186e4588f26c449708e8bb4cd610d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 186463
+  packageName: Script Wizard Anim Set
+  packageVersion: 1.21
+  assetPath: Assets/Script_Wizard_AnimSet/AnimatorContrl/attack06.controller
+  uploadId: 708657

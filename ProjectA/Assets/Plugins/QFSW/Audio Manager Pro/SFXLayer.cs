@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using AMPInternal;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 /// <summary>An individual sound layer in an SFXObject.</summary>
 [System.Serializable]
@@ -12,7 +13,7 @@ public struct SFXLayer
     [Tooltip("The name of this SFXLayer.")]
     public string LayerName;
 
-
+    public string SFXName;
     /// <summary>The audio to be played in this SFXLayer.</summary>
     [Tooltip("The audio to be played in this SFXLayer.")]
     public AudioClip SFX;
@@ -228,6 +229,8 @@ public struct SFXLayer
     /// <param name="TargetAudio">The AudioObject that will be playing this SFXLayer.</param>
     private void CopySFXSettings(AudioObject TargetAudio)
     {
+        TargetAudio.Name = LayerName;
+        Debug.Log("COPIED NAMe " + LayerName);
         TargetAudio.Source.spatialBlend = SpatialBlend;
         TargetAudio.Source.panStereo = StereoPan;
         TargetAudio.Source.reverbZoneMix = ReverbZoneMix;

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: de2867dbb7e187b45aa544be37a6dd65
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 186463
+  packageName: Script Wizard Anim Set
+  packageVersion: 1.21
+  assetPath: Assets/Script_Wizard_AnimSet/AnimatorContrl/defence02.controller
+  uploadId: 708657
