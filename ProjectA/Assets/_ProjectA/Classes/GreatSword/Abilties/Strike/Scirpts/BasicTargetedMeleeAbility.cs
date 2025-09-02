@@ -10,7 +10,7 @@ using Joint = Data.Types.Joint;
 
 namespace _ProjectA.Classes.GreatSword.Abilties.Strike.Scirpts
 {
-    public class GreatSwordStrike : TargetedAbility
+    public class BasiceTargetedMeleeAbility : TargetedAbility
     {
         protected TargetedMeleeData TargetedMeleeData => (TargetedMeleeData)_baseData;
         [SerializeField] private Transform _spawnPoint;
@@ -37,7 +37,7 @@ namespace _ProjectA.Classes.GreatSword.Abilties.Strike.Scirpts
 
         public override void EndCast()
         {
-            
+            _brain.Movement.ChangeRotationState(RotationState.RegularInput);
         }
 
 
@@ -53,12 +53,12 @@ namespace _ProjectA.Classes.GreatSword.Abilties.Strike.Scirpts
             if(_brain.isServer)
                  _brain.Ability.ConfirmHit();
             
-          
         }
         
         
         public override void ConfirmHit()
         {
+            base.EndCast();
             TargetedMeleeData.VFX["Strike"].SpawnVFX(_spawnPoint);
             SFXManagerWrapper.Instance.Play(TargetedMeleeData.SFX["Impact"],transform.position, _brain.isLocalPlayer);
         }
