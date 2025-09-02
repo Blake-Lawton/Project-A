@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dfc54d6f1a9fa741ac8b72f764982f6, type: 3}
+  m_Name: GreatSwordRuinousBlow
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 30476e9e34570a641b0a1dcea253048e, type: 2}
+    - {fileID: 11400000, guid: 179990f7aaf43a04b99455a374af7907, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _statusEffects
+      Entry: 7
+      Data: 0|Unity.Plastic.Antlr3.Runtime.Misc.ListStack`1[[Data.StatusEffectData.BaseStatusData,
+        Assembly-CSharp]], Unity.Plastic.Antlr3.Runtime
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _animations
+      Entry: 7
+      Data: 1|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 2|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Ability
+    - Name: $v
+      Entry: 1
+      Data: GreatSwordAbility
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _SFX
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[SFXObject,
+        Assembly-CSharp-firstpass]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 2
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Swing
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _VFX
+      Entry: 7
+      Data: 4|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[_ProjectA.Scripts.Util.VFXSpawner,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 2
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _sprite: {fileID: 21300000, guid: e8765acc65beb6349b8720d7ce8fb5bf, type: 3}
+  _name: Ruinous Blow
+  _cooldown: 0
+  _castTime: 0.6
+  _type: 0
+  _interactionNumber: 10
+  _showCastBar: 0
+  _targetType: 0
+  _isGlobal: 1
+  _targetSelf: 0
+  _requireTarget: 1
+  _standStill: 0
+  _interruptible: 0
+  _canInterrupt: 1
+  _abilityAnimationNumber: 2
+  _range: 3
+  _ability: {fileID: 2004100909622095157, guid: e92082ba5c1b6834e8b894ff3e2a30fd, type: 3}
+  Strikes:
+  - ID: 0
+    StrikeTime: 0.1
+    HasStruck: 0
+    StrikeLocation: {fileID: 0}
+  - ID: 1
+    StrikeTime: 0.6
+    HasStruck: 0
+    StrikeLocation: {fileID: 0}

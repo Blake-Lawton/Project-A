@@ -11305,6 +11305,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 800574219633346259, guid: 50f23596ee9d48341a9f64e62b8e3d1b, type: 3}
+      propertyPath: _characterData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f4dc800c7a50704ca508c5ba9506d1c, type: 2}
     - target: {fileID: 1642351899679345726, guid: 50f23596ee9d48341a9f64e62b8e3d1b, type: 3}
       propertyPath: animator
       value: 
@@ -11367,7 +11371,7 @@ PrefabInstance:
       objectReference: {fileID: 7122873086562056343, guid: 50f23596ee9d48341a9f64e62b8e3d1b, type: 3}
     - target: {fileID: 8966943616911043610, guid: 50f23596ee9d48341a9f64e62b8e3d1b, type: 3}
       propertyPath: _abilityData.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8966943616911043610, guid: 50f23596ee9d48341a9f64e62b8e3d1b, type: 3}
       propertyPath: '_abilityData.Array.data[0]'
@@ -11377,6 +11381,14 @@ PrefabInstance:
       propertyPath: '_abilityData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: de21f8e8b26457746a48507f52bb1572, type: 2}
+    - target: {fileID: 8966943616911043610, guid: 50f23596ee9d48341a9f64e62b8e3d1b, type: 3}
+      propertyPath: '_abilityData.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: bc860b423c3c2964983fb7da8c2cc9cc, type: 2}
+    - target: {fileID: 8966943616911043610, guid: 50f23596ee9d48341a9f64e62b8e3d1b, type: 3}
+      propertyPath: '_abilityData.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 845ef42735a15d840b6e3bd5dcdcd540, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4104879436801349907, guid: 50f23596ee9d48341a9f64e62b8e3d1b, type: 3}

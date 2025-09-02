@@ -10,11 +10,9 @@ namespace _ProjectA.Scripts.Util
     {
         [SerializeField] private VFXHelper _vfxPrefab;
         [SerializeField] private float _destroyDelay;
-        [InfoBox("This is for timing your vfx")]
-        [SerializeField] private float _spawnTime;
         
         private Transform _spawnPoint;
-        public float SpawnTime => _spawnTime;
+      
         public VFXHelper VFXPrefab => _vfxPrefab;
         public float DestroyDelay => _destroyDelay;
 

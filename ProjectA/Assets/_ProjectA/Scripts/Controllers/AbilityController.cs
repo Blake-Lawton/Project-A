@@ -33,10 +33,12 @@ namespace _ProjectA.Scripts.Controllers
 
 
         [Header("Ability")]
-        [SerializeField] private float _globalCd = .75f;
+        [SerializeField,ReadOnly] private float _globalCd => _brain.CharacterData.GlobalCD;
         [SerializeField, ReadOnly]  private float _currentGlobalCd;
         [SerializeField, ReadOnly] private BaseAbility _currentAbility;
         [SerializeField, ReadOnly] private float _castTime;
+
+        public event Action<PlayerBrain> TargetAcquired;
         public float CastTime => _castTime;
         [SerializeField, ReadOnly] public bool OnGlobalCd => _currentGlobalCd > 0;
         public PlayerBrain Target => _target;
@@ -55,27 +57,33 @@ namespace _ProjectA.Scripts.Controllers
             _input.Player.Target.performed += ctx => TargetPlayer(true);
             _input.Player.Ability1.performed += ctx => TryCast(0);
             _input.Player.Ability2.performed += ctx => TryCast(1);
-           
+            _input.Player.Ability3.performed += ctx => TryCast(2);
+            _input.Player.Ability4.performed += ctx => TryCast(3);
+            _input.Player.Ability5.performed += ctx => TryCast(4);
+            _input.Player.Ability6.performed += ctx => TryCast(5);
         }
 
 
         public void SetUp(NamePlate namePlate)
         {
+            _brain = GetComponent<PlayerBrain>();
+            _targetOutline = GetComponentInChildren<TargetOutline>();
             _namePlate = namePlate;
-
+            
             int i = 0;
             foreach (var abilityData in _abilityData)
             {
                 var ability = abilityData.EquippedAbility();
                 ability.transform.SetParent(_abilityHolder);
                 ability.SetUp();
-                ability.SetUpUI(PlayerUICanvas.Instance.AbilityUIController.AbilityIcons[i]);
+                ability.SetUpUI(PlayerUICanvas.Instance.AbilityUI.AbilityIcons[i]);
                 _abilities.Add(ability);
                 i++;
             }
-            _brain = GetComponent<PlayerBrain>();
-            _targetOutline = GetComponentInChildren<TargetOutline>();
-            Debug.Log(_targetOutline.name);
+
+            PlayerUICanvas.Instance.TargetUI.SetUp(_brain);
+            
+            Debug.Log("Spawned This Guys: " + name);
         }
         
         private void Start()
@@ -118,6 +126,7 @@ namespace _ProjectA.Scripts.Controllers
             }
             Debug.Log(" TARGET IS   = " + _target);
             
+            TargetAcquired?.Invoke(_target);
             
             if(!isInput)
                 return;
@@ -353,11 +362,33 @@ namespace _ProjectA.Scripts.Controllers
         }
         
         [ClientRpc]
-        public void ConfirmHit()
+        public void ConfirmHit(int id)
         {
             if(_currentAbility == null)
                 return;
-            _currentAbility.ConfirmHit();
+            _currentAbility.ConfirmHit(id);
         }
+
+
+
+        #region  Util
+
+        private string GetKeybindForAbility(int index)
+        {
+            InputAction action = index switch
+            {
+                0 => _input.Player.Ability1,
+                1 => _input.Player.Ability2,
+                2 => _input.Player.Ability3,
+                _ => null
+            };
+
+            if (action == null) return string.Empty;
+
+            // Pretty display string, e.g. "Q" instead of "<Keyboard>/q"
+            return action.GetBindingDisplayString();
+        }
+
+        #endregion
     }
 }

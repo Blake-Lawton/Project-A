@@ -32,6 +32,7 @@ namespace _ProjectA.Scripts.Managers
                 return;
             }
            
+            // sfx.SFXLayers[0].SpatialBlend
             if (isLocal)
             {
                 sfx.SetPriorty(_localPriority);

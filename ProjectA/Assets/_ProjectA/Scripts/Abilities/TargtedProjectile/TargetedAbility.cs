@@ -26,7 +26,6 @@ namespace _ProjectA.Scripts.Abilities.Mage
         public override void StartCast()
         {
             _target = _brain.Ability.Target;
-            _cooldown = _baseData.Cooldown;
         }
         
         
@@ -42,11 +41,7 @@ namespace _ProjectA.Scripts.Abilities.Mage
 
         }
 
-        public override void Interrupt()
-        {
-            
-        }
-
+        
         #region Target Stuff
 
         protected bool TargetInRange(PlayerBrain target)

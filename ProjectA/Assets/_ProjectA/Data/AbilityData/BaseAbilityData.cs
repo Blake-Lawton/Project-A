@@ -8,6 +8,7 @@ using Data.Types;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Data.AbilityData
 {
@@ -19,7 +20,7 @@ namespace Data.AbilityData
         [SerializeField] private float _cooldown;
         [SerializeField] private float _castTime;
         [SerializeField] private AbilityType _type;
-        [SerializeField] private int _healthChange;
+        [FormerlySerializedAs("_healthChange")] [SerializeField] private int _interactionNumber;
         [Header("UI")]
         [SerializeField] private bool _showCastBar;
 
@@ -37,16 +38,16 @@ namespace Data.AbilityData
         
         [Header("Status Effects")]
         [OdinSerialize] private List<BaseStatusData> _statusEffects;
-        
-        
-        [Header("Animations ")]
+
+
+        [Header("Animations ")] 
+        [SerializeField] private int _abilityAnimationNumber;
         [OdinSerialize]private Dictionary<string, string> _animations;
         [Header("SFX")]
         [OdinSerialize]private Dictionary<string, SFXObject> _SFX;
         [Header("VFX")]
         [OdinSerialize]private Dictionary<string, VFXSpawner> _VFX;
-        public Dictionary<string, SFXObject> SFX => _SFX;
-        public Dictionary<string, VFXSpawner> VFX => _VFX;
+     
         public Dictionary<string, string> Animations => _animations;
         public Sprite Sprite => _sprite;
         public string Name => _name;
@@ -62,12 +63,13 @@ namespace Data.AbilityData
         public bool CanInterrupt => _canInterrupt;
         public List<BaseStatusData> StatusEffects => _statusEffects;
         public AbilityType Type => _type;
-        public int HealthChange => _healthChange;
+        public int InteractionNumber => _interactionNumber;
+        public int AbilityAnimationNumber => _abilityAnimationNumber;
         public abstract BaseAbility EquippedAbility();
 
         public SFXObject FindSFX(string sfxKey)
         {
-            if(SFX.ContainsKey(sfxKey))
+            if(_SFX.ContainsKey(sfxKey))
                 return _SFX[sfxKey];
             else
             {

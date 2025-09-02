@@ -230,7 +230,6 @@ public struct SFXLayer
     private void CopySFXSettings(AudioObject TargetAudio)
     {
         TargetAudio.Name = LayerName;
-        Debug.Log("COPIED NAMe " + LayerName);
         TargetAudio.Source.spatialBlend = SpatialBlend;
         TargetAudio.Source.panStereo = StereoPan;
         TargetAudio.Source.reverbZoneMix = ReverbZoneMix;

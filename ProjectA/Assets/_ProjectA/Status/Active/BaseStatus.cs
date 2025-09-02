@@ -30,8 +30,15 @@ namespace _ProjectA.Status.Active
             _interaction = interaction;
         }
 
-        public abstract void Apply();
-        public abstract void Refresh();
+        public virtual void Apply()
+        {
+            _currentDuration = _data.Duration;
+        }
+
+        public virtual void Refresh()
+        {
+            _currentDuration = _data.Duration;
+        }
 
         public virtual void End()
         {
@@ -39,11 +46,30 @@ namespace _ProjectA.Status.Active
             _target.Status.RemoveStatus(this);
         }
 
-        public abstract void Handle();
+        public virtual void Handle()
+        {
+           
+            _nameplateIcon.Handle(_currentDuration, _data.Duration);
+            _currentDuration -= Time.deltaTime;
+            if(_currentDuration <= 0)
+                End();
+        }
 
         public void SetUpUI(StatusNameplateIcon icon)
         {
             _nameplateIcon = icon;
+            icon.gameObject.SetActive(false);
+            if (_data.ShowAllPlayers)
+            {
+                icon.gameObject.SetActive(true);
+            }
+            else
+            {
+                if(_perp.isLocalPlayer)
+                    icon.gameObject.SetActive(true);
+            }
+                
+                
         }
     }
 }

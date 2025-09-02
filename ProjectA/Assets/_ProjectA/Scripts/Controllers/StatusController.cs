@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _ProjectA.Scripts.UI;
 using _ProjectA.Status.Active;
+using _ProjectA.Status.IncreaseDamageFromSource;
 using Data.Interaction;
 using Data.StatusEffectData;
 using Mirror;
@@ -127,9 +128,6 @@ namespace _ProjectA.Scripts.Controllers
         #region Slow
 
         
-
-      
-       
         private void CalculateHighestSlow()
         {
             
@@ -159,6 +157,28 @@ namespace _ProjectA.Scripts.Controllers
         }
         
         #endregion
+
+
+        #region IncreaseDamageFromSource
+
+        public bool FindIncreaseDamageFromSource(PlayerBrain perp, out float totalIncrease)
+        {
+            var matchingStatuses = _statuses
+                .OfType<IncreaseNumberFromSourceStatus>()
+                .Where(s => s.Interaction.Perp == perp)
+                .ToList();
+
+           
+             totalIncrease = matchingStatuses.Sum(s => s.IncreaseNumberFromSourceData.Percentage);
+
+             if (totalIncrease > 0)
+                 return true;
+             else
+                 return false; 
+        }
+
+        #endregion
+        
         #endregion
     }
 }

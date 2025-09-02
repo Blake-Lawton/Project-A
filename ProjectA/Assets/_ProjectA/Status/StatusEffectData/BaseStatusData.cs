@@ -17,6 +17,7 @@ namespace Data.StatusEffectData
         [SerializeField] private float _duration;
         [SerializeField] private bool _isBuff;
         [SerializeField] private bool _hasStacks;
+        [SerializeField] private bool _showAllPlayers;
         [InfoBox("This can be null if no status vfx is needed")]
         [SerializeField] private ParticleSystem _statusVFX;
         
@@ -27,6 +28,8 @@ namespace Data.StatusEffectData
         public float Duration => _duration;
         public bool IsBuff => _isBuff;
         public ParticleSystem StatusVFX => _statusVFX;
+        
+        public bool ShowAllPlayers => _showAllPlayers;
 
         public abstract BaseStatus CreateStatus(InteractionData interaction);
 

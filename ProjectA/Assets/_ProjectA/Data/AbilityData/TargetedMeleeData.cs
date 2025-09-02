@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using _ProjectA.Data.Types;
 using _ProjectA.Scripts.Abilities;
 using _ProjectA.Scripts.Abilities.Mage;
+using Data.Types;
 using UnityEngine;
 
 
@@ -10,10 +13,8 @@ namespace _ProjectA.Data.AbilityData
     {
         [Header("Melee Data")]
         [SerializeField] private TargetedAbility _ability;
-
-        [SerializeField] private float _strikeTime;
         
-        public float StrikeTime => _strikeTime;
+        public List<StrikeData> Strikes = new List<StrikeData>();
         public override BaseAbility EquippedAbility()
         {
             var ability = Instantiate(_ability);

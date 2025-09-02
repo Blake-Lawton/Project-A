@@ -60,10 +60,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Strike
+      Data: Ability
     - Name: $v
       Entry: 1
-      Data: Strike
+      Data: GreatSwordAbility
     - Name: 
       Entry: 8
       Data: 
@@ -167,6 +167,7 @@ MonoBehaviour:
   _standStill: 0
   _interruptible: 0
   _canInterrupt: 0
+  _abilityAnimationNumber: 1
   _range: 3
   _ability: {fileID: 3805582125285845942, guid: ffa986e578df0c0469cd08e87fc956bf, type: 3}
   _strikeTime: 0.4

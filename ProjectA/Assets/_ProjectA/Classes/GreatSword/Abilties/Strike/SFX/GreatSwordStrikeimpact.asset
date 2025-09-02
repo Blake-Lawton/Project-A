@@ -16,6 +16,7 @@ MonoBehaviour:
   SFXName: 
   SFXLayers:
   - LayerName: 
+    SFXName: 
     SFX: {fileID: 8300000, guid: 9c4c67644c0446443a6ae356e368ae93, type: 3}
     RandomizeVolume: 0
     FixedVolume: 1
@@ -33,12 +34,12 @@ MonoBehaviour:
     Mute: 0
     BypassEffects: 0
     BypassReverbZones: 0
-    Priority: 128
+    Priority: 50
     StereoPan: 0
     SpatialBlend: 1
     ReverbZoneMix: 0
     MixerOverride: {fileID: 3946798172038608657, guid: 2eb82e1482b635442a1ed29e529224de, type: 2}
-    MinDistance: 1
+    MinDistance: 5
     MaxDistance: 500
     RolloffMode: 0
   RandomizeVolume: 0

@@ -1,17 +1,18 @@
-using System;
 using _ProjectA.Scripts.Controllers;
-using _ProjectA.Scripts.UI;
 using DamageNumbersPro;
 using Data.Interaction;
+using Data.Types;
 using Mirror;
 using UnityEngine;
 
-namespace _ProjectA.Managers
+namespace _ProjectA.Scripts.Managers
 {
     public class InteractionNumbersManager : NetworkBehaviour
     {
         public static InteractionNumbersManager Instance;
-        [SerializeField]private DamageNumber _standardDamageNumber;
+        [SerializeField]private DamageNumber _standardDamage;
+        [SerializeField] private DamageNumber _heal;
+        [SerializeField] private DamageNumber _shield;
 
    
         private Camera _camera;
@@ -23,36 +24,34 @@ namespace _ProjectA.Managers
         }
 
 
-        public void DisplayDamage(int damage, InteractionData data)
+        public void DisplayInteraction(int healthChange, InteractionData data)
         {
-            SpawnForVictim(data.Victim.NetworkIdentity.connectionToClient, data.Victim.NetworkIdentity, damage);
-            SpawnForPerp(data.Perp.NetworkIdentity.connectionToClient, data.Victim.NetworkIdentity, damage);
+            SpawnInteractionNumbers(data.Victim.NetworkIdentity.connectionToClient, data.Victim.NetworkIdentity, healthChange, data.Ability.BaseData.Type);
+            SpawnInteractionNumbers(data.Perp.NetworkIdentity.connectionToClient, data.Victim.NetworkIdentity, healthChange,data.Ability.BaseData.Type);
         }
 
 
         
         [TargetRpc]
-        private void SpawnForVictim(NetworkConnectionToClient conn, NetworkIdentity victim, int damage)
+        private void SpawnInteractionNumbers(NetworkConnectionToClient conn, NetworkIdentity victim, int damage, AbilityType type)
         {
-            DamageNumber dn = _standardDamageNumber.Spawn(victim.transform.position, damage);
+            DamageNumber dn = _standardDamage;
+            switch (type)
+            {
+                case AbilityType.Damage:
+                    dn = _standardDamage.Spawn(victim.transform.position, damage);
+                    break;
+                case AbilityType.Shield:
+                   dn = _shield.Spawn(victim.transform.position, damage);
+                    break;
+                case AbilityType.Heal:
+                    dn = _heal.Spawn(victim.transform.position, damage);
+                    break;
+            }
+         
             dn.SetAnchoredPosition(victim.GetComponent<PlayerBrain>().NamePlate.GetComponent<RectTransform>(), Vector2.zero);
         }
 
-        [TargetRpc]
-        private void SpawnForPerp(NetworkConnectionToClient conn, NetworkIdentity victim, int damage)
-        {
-            DamageNumber dn = _standardDamageNumber.Spawn(victim.transform.position, damage);
-            dn.SetAnchoredPosition(victim.GetComponent<PlayerBrain>().NamePlate.GetComponent<RectTransform>(), Vector2.zero);
-        }
-
-        public void DisplayHeal(int abilityDataHealthChange, InteractionData data)
-        {
-            Debug.Log("EELS");
-        }
-
-        public void DisplayShield(int abilityDataHealthChange, InteractionData data)
-        {
-            Debug.Log("DISPLAY SHIELD");
-        }
+        
     }
 }

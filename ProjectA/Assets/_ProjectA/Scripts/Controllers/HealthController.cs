@@ -25,8 +25,9 @@ namespace _ProjectA.Scripts.Controllers
        
        public bool IsDead => _isDead;
        
-       public Action<PlayerBrain> OnDeathServer;
+       public Action<PlayerBrain> DeathOnServer;
        public Action OnDeath;
+       
        
        
 
@@ -46,9 +47,10 @@ namespace _ProjectA.Scripts.Controllers
 
         public void Handle()
         {
-            _namePlate.UpdateHealthBar((float)_currentHealth / _maxHealth);
+            _namePlate.UpdateHealthBar(GetCurrentHealthPrc());
         }
         
+        [Button]
         [Server]
         public void TakeDamage(int damage)
         {
@@ -69,7 +71,7 @@ namespace _ProjectA.Scripts.Controllers
         private void Death()
         {
             _isDead = true;
-            OnDeathServer?.Invoke(_brain);
+            DeathOnServer?.Invoke(_brain);
             DeathRPC();
           
         }
@@ -96,5 +98,7 @@ namespace _ProjectA.Scripts.Controllers
         {
             Debug.Log("SHIELD STUFF HERE");
         }
+
+        public float GetCurrentHealthPrc() => (float)_currentHealth / _maxHealth;
     }
 }

@@ -42,7 +42,7 @@ namespace _ProjectA.Scripts.Abilities
         public abstract void StartCast();
       
         public abstract void Interrupt();
-        public abstract void ConfirmHit();
+        public abstract void ConfirmHit(int id);
 
         public virtual CastResult CanCastAbility(PlayerBrain target, BaseAbility previousAbility)
         {
@@ -80,7 +80,11 @@ namespace _ProjectA.Scripts.Abilities
             if (_brain.Movement.Moving && _baseData.Interruptible && _brain.Ability.IsCasting)
                 _brain.Ability.InterruptCastLocal();
         }
-        public abstract void EndCast();
+
+        public virtual void EndCast()
+        {
+            _cooldown = _baseData.Cooldown;
+        }
 
 
         

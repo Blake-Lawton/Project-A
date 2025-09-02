@@ -55,7 +55,11 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _baseData: {fileID: 11400000, guid: 84ae7453dfb19254e9baeaaca1fb9be0, type: 2}
-  _spawnPoint: {fileID: 3051749957592427390}
+  Strikes:
+  - ID: 0
+    StrikeTime: 0.3
+    HasStruck: 0
+    StrikeLocation: {fileID: 3051749957592427390}
 --- !u!1 &8621899356360202140
 GameObject:
   m_ObjectHideFlags: 0

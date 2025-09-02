@@ -31,6 +31,7 @@ namespace _ProjectA.Scripts.Abilities.TargetedInstantAbility
         }
         public override void EndCast()
         {
+            base.EndCast();
             _castingSFX.Stop();
             _castingVFX.Particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             if(!TargetInRange(_target))
@@ -65,14 +66,15 @@ namespace _ProjectA.Scripts.Abilities.TargetedInstantAbility
 
         public override void Interrupt()
         {
-            base.Interrupt();
+           
             _castingVFX.Particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             _castingSFX.Stop();
             _brain.Animation.Animator.SetTrigger("Idle");
         }
 
-        public override void ConfirmHit()
+        public override void ConfirmHit(int id)
         {
+            
         }
     }
 }
