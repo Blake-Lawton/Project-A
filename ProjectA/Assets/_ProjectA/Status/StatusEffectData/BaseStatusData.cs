@@ -1,5 +1,6 @@
 using System;
 using _ProjectA.Scripts.Controllers;
+using _ProjectA.Scripts.UI;
 using _ProjectA.Status.Active;
 using Data.Interaction;
 using Sirenix.OdinInspector;
@@ -20,7 +21,7 @@ namespace Data.StatusEffectData
         [SerializeField] private bool _showAllPlayers;
         [InfoBox("This can be null if no status vfx is needed")]
         [SerializeField] private ParticleSystem _statusVFX;
-        
+        [SerializeField] private StatusIcon _statusIconPrefab;
         public bool HasStacks => _hasStacks;
         public string Name => _name;
         public string Description => _description;
@@ -30,8 +31,9 @@ namespace Data.StatusEffectData
         public ParticleSystem StatusVFX => _statusVFX;
         
         public bool ShowAllPlayers => _showAllPlayers;
-
+        public StatusIcon StatusIconPrefab => _statusIconPrefab;
         public abstract BaseStatus CreateStatus(InteractionData interaction);
 
+        
     }
 }

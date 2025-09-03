@@ -31,7 +31,7 @@ namespace _ProjectA.Scripts.UI
 
         [Header("Statuses")] 
         [SerializeField] private Transform _grid;
-        [SerializeField] private StatusNameplateIcon _iconPrefab;
+        [SerializeField] private StatusIcon _iconPrefab;
         
         private Transform _target;
         private Camera _camera;
@@ -107,12 +107,10 @@ namespace _ProjectA.Scripts.UI
             _interruptBar.alpha = 1;
             _interruptBar.DOFade(0, .5f);
         }
-
-        public StatusNameplateIcon GenerateIcon(BaseStatus newStatus)
+        
+        public void InjectIcon(StatusIcon icon)
         {
-            var icon = Instantiate(_iconPrefab, _grid);
-            icon.SetUp(newStatus);
-            return icon;
+            icon.transform.SetParent(_grid);
         }
     }
 }

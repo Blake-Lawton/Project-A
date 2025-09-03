@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permanent: 0
-  lifetime: 2
+  lifetime: 1
   unscaledTime: 0
   enable3DGame: 0
   faceCameraView: 1
@@ -485,7 +485,7 @@ MonoBehaviour:
   enableShakeFadeIn: 1
   shakeOffsetFadeIn: {x: 0, y: 2.5}
   shakeFrequencyFadeIn: 4
-  durationFadeOut: 0.3
+  durationFadeOut: 0.25
   enableOffsetFadeOut: 1
   offsetFadeOut: {x: 0, y: -0.2}
   enableScaleFadeOut: 1
@@ -607,7 +607,7 @@ MonoBehaviour:
   defaultOrthographicSize: 5
   maxOrthographicSize: 1.5
   orthographicCamera: {fileID: 0}
-  spamGroup: 
+  spamGroup: WhiteDamage
   enableCombination: 0
   combinationSettings:
     method: 0

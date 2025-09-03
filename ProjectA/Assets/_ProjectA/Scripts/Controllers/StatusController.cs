@@ -34,7 +34,8 @@ namespace _ProjectA.Scripts.Controllers
         public bool Stunned => _stunned;
         public bool Rooted => _rooted;
         public List<BaseStatus> Statuses => _statuses;
-        
+        public event Action<BaseStatus> AddStatus;
+
 
         //for now
         public float DamageAmp = 1;
@@ -58,7 +59,9 @@ namespace _ProjectA.Scripts.Controllers
                 var newStatus = statusData.CreateStatus(interaction);
                 _statuses.Add(newStatus);
                 //prob could be put into CreatStatus
-                newStatus.SetUpUI(_namePlate.GenerateIcon(newStatus));
+                var icon = newStatus.GenerateIcon();
+                _namePlate.InjectIcon(icon);
+                AddStatus?.Invoke(newStatus);
                 ApplyStatusVFXIfNeeded(statusData);
                 newStatus.Apply();
             }
@@ -180,5 +183,15 @@ namespace _ProjectA.Scripts.Controllers
         #endregion
         
         #endregion
+
+        public List<StatusIcon> GetStatusIcons()
+        {
+            List<StatusIcon> icons = new List<StatusIcon>();
+            foreach (var status in _statuses)
+            {
+                icons.Add(status.GenerateIcon());
+            }
+            return icons;
+        }
     }
 }

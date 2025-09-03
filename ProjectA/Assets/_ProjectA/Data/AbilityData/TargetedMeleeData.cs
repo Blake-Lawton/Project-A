@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using _ProjectA.Data.Types;
 using _ProjectA.Scripts.Abilities;
-using _ProjectA.Scripts.Abilities.Mage;
+using _ProjectA.Scripts.Abilities.BaseClasses;
 using Data.Types;
 using UnityEngine;
 

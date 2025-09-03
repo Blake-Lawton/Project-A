@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Priest
   m_EditorClassIdentifier: 
   _name: Priest
-  _icon: {fileID: 21300000, guid: ae31eb4bef5927a4cb80247082374f58, type: 3}
+  _icon: {fileID: 21300000, guid: d276a152be3be8242b9a454f8e8457df, type: 3}
   _health: 500
   _maxMoveSpeed: 5
   _groundAcceleration: 5

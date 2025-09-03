@@ -1,5 +1,4 @@
 using _ProjectA.Scripts.Abilities;
-using _ProjectA.Scripts.Abilities.Mage;
 using Data.AbilityData;
 using Sirenix.OdinInspector;
 using UnityEngine;

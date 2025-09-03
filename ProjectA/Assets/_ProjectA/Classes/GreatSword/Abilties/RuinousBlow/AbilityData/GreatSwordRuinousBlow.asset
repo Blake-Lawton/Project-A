@@ -118,10 +118,10 @@ MonoBehaviour:
   _sprite: {fileID: 21300000, guid: e8765acc65beb6349b8720d7ce8fb5bf, type: 3}
   _name: Ruinous Blow
   _cooldown: 0
-  _castTime: 0.6
+  _castTime: 0.9
   _type: 0
   _interactionNumber: 10
-  _showCastBar: 0
+  _showCastBar: 1
   _targetType: 0
   _isGlobal: 1
   _targetSelf: 0

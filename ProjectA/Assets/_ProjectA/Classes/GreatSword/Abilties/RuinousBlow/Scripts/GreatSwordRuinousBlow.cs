@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using _ProjectA.Data.AbilityData;
 using _ProjectA.Data.Types;
 using _ProjectA.Managers;
-using _ProjectA.Scripts.Abilities.Mage;
+using _ProjectA.Scripts.Abilities.BaseClasses;
 using _ProjectA.Scripts.Managers;
 using Data.Interaction;
 using Data.Types;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _ProjectA.Classes.GreatSword.Abilties.RuinousBlow.Scripts
 {
@@ -16,7 +17,7 @@ namespace _ProjectA.Classes.GreatSword.Abilties.RuinousBlow.Scripts
 
         public TargetedMeleeData MeleeData => (TargetedMeleeData)_baseData;
 
-        [SerializeField]private List<StrikeData> Strikes = new List<StrikeData>();
+         [SerializeField]private List<StrikeData> _strikes = new List<StrikeData>();
 
 
         public override void SetUp()
@@ -26,26 +27,27 @@ namespace _ProjectA.Classes.GreatSword.Abilties.RuinousBlow.Scripts
             {
                 var strikeToCopy = MeleeData.Strikes[i];
                 
-                Strikes[i].StrikeTime = strikeToCopy.StrikeTime;
-                Strikes[i].ID = strikeToCopy.ID;
+                _strikes[i].StrikeTime = strikeToCopy.StrikeTime;
+                _strikes[i].ID = strikeToCopy.ID;
             }
         }
 
         public override void StartCast()
        {
            base.StartCast();
-           foreach(var strike in Strikes)
+           foreach(var strike in _strikes)
                strike.HasStruck = false;
            
            _brain.Animation.Animator.SetInteger(_baseData.Animations["Ability"], _baseData.AbilityAnimationNumber);
-           _brain.Movement.ChangeRotationState(RotationState.LookAtTarget, _target);
+           _brain.Movement.SetRotationState(RotationState.LookAtTarget, _target);
+           
            SFXManagerWrapper.Instance.Play(_baseData.FindSFX("Swing"), transform.position, _brain.isLocalPlayer);
        }
 
        public override void Interrupt()
        {
            _brain.Animation.Animator.SetInteger(_baseData.Animations["Ability"], 0);
-           _brain.Movement.ChangeRotationState(RotationState.RegularInput, _target);
+           _brain.Movement.SetRotationState(RotationState.RegularInput, _target);
        }
 
        public override void ConfirmHit(int id)
@@ -57,7 +59,7 @@ namespace _ProjectA.Classes.GreatSword.Abilties.RuinousBlow.Scripts
        {
            base.Casting(castTime);
 
-           foreach (var strike in Strikes)
+           foreach (var strike in _strikes)
            {
                if (strike.StrikeTime <= castTime && !strike.HasStruck)
                {
@@ -73,7 +75,7 @@ namespace _ProjectA.Classes.GreatSword.Abilties.RuinousBlow.Scripts
        {
            base.EndCast();
            _brain.Animation.Animator.SetInteger(_baseData.Animations["Ability"], 0);
-           _brain.Movement.ChangeRotationState(RotationState.RegularInput, _target);
+           _brain.Movement.SetRotationState(RotationState.RegularInput, _target);
        }
     }
 }

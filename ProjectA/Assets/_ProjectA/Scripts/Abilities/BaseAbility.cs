@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using _ProjectA.Scripts.Abilities.Mage;
 using _ProjectA.Scripts.Controllers;
 using _ProjectA.Scripts.UI.AbilitiyUIController;
 using _ProjectA.Scripts.Util;
@@ -28,8 +27,6 @@ namespace _ProjectA.Scripts.Abilities
 
         public virtual void SetUpUI(AbilityIcon ui)
         {
-            _brain = GetComponentInParent<PlayerBrain>();
-
             if (_brain.isLocalPlayer)
             {
                 _ui = ui;
@@ -66,7 +63,7 @@ namespace _ProjectA.Scripts.Abilities
 
         
 
-        public virtual void Handle()
+        public virtual void HandleCoolDown()
         {
             
             UpdateCooldown();
@@ -90,6 +87,12 @@ namespace _ProjectA.Scripts.Abilities
         
         public virtual bool CorrectTarget(PlayerBrain target, out CastResult result)
         {
+
+            if (!_baseData.RequireTarget)
+            {
+                result = CastResult.Success;
+                return true;
+            }
             if (target == null)
             {
                 result = CastResult.NoTarget;

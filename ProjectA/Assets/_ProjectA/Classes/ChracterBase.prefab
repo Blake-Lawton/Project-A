@@ -4008,7 +4008,6 @@ Transform:
   m_Children:
   - {fileID: 3728037892151952297}
   - {fileID: 4026165860950318448}
-  - {fileID: 8557848521250030997}
   - {fileID: 3652248643309546813}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4095,6 +4094,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _finalVelocity: {x: 0, y: 0, z: 0}
+  _rotationState: 0
 --- !u!114 &5336836065865958413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4240,11 +4240,9 @@ MonoBehaviour:
   _abilities: []
   _abilityHolder: {fileID: 4026165860950318448}
   _isCasting: 0
-  _localCastStartTime: 0
-  _serverCastStartTime: 0
-  _globalCd: 0.75
   _currentGlobalCd: 0
   _currentAbility: {fileID: 0}
+  _castTime: 0
 --- !u!114 &644759973291147769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7309,30 +7307,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: _joints
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[Data.Types.Joint, Assembly-CSharp],[UnityEngine.Transform,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Data.Types.Joint,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
+      Entry: 6
       Data: 
 --- !u!114 &209381418135244975
 MonoBehaviour:
@@ -14540,37 +14515,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.73920375, y: 0.1444202, z: 0}
     m_Extent: {x: 0.23321456, y: 0.22291613, z: 0.119158186}
   m_DirtyAABB: 0
---- !u!1 &8615198398181985098
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8557848521250030997}
-  m_Layer: 0
-  m_Name: FirePoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8557848521250030997
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8615198398181985098}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.439, z: 0.953}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1776495400355846649}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8642957204995240195
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,7 +22,7 @@ namespace _ProjectA.Scripts.Networking
         public  RemoteClient Remote =>  _remote;
         public MovementController Movement => _movement;
 
-        public event Action Tick; 
+        public event Action<float> Tick; 
         private void Awake()
         {
             _csp = GetComponent<ClientSidePrediction>();
@@ -36,13 +36,16 @@ namespace _ProjectA.Scripts.Networking
             Application.targetFrameRate = isServer ? NetworkServer.sendRate : 144;
         }
 
-        public void Handle()
+        public void Handle() 
         {
             
             _accumulatedTime += Time.deltaTime;
             
             while (_accumulatedTime >= NetworkServer.sendInterval)
             {
+                
+                Tick?.Invoke(NetworkServer.sendInterval);
+                
                 if(isLocalPlayer)
                     _csp.HandleTick(this);
             
@@ -51,7 +54,7 @@ namespace _ProjectA.Scripts.Networking
                 
                 _accumulatedTime -= NetworkServer.sendInterval;
 
-                Tick?.Invoke();
+                
             }
           
             if(isLocalPlayer)

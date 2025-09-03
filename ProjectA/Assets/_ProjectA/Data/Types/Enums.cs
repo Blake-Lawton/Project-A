@@ -61,7 +61,7 @@ namespace Data.Types
     {
         NoInput,
         Input,
-        NoMovement,
+        InMovementAbility,
     }
 
     public enum AbilityType

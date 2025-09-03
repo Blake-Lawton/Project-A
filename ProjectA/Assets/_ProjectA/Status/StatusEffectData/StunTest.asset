@@ -18,4 +18,6 @@ MonoBehaviour:
   _duration: 10
   _isBuff: 0
   _hasStacks: 0
+  _showAllPlayers: 0
   _statusVFX: {fileID: 1940831734945671421, guid: 99e1fcf14c62b3e47ac1bc159e2d10a7, type: 3}
+  _statusIconPrefab: {fileID: 3825362426231417955, guid: fa341889e1ae4bd4a8327c3c8f960512, type: 3}

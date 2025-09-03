@@ -47,6 +47,7 @@ namespace _ProjectA.Scripts.Controllers
         private TargetOutline TargetOutline => _targetOutline;
         public float CurrentGlobalCd => _currentGlobalCd;
         public float GlobalCd => _globalCd;
+        public Vector3 TargetLocation { get; set; }
 
         private void Awake()
         {
@@ -261,6 +262,9 @@ namespace _ProjectA.Scripts.Controllers
             
         }
 
+        
+        //WE NEED TO SEND MOUSE POSITION SO WE CAN ACCOUNT FOR ABILITIES THAT SPAWN AT MOUSE LOCATION
+        // SHOULD BE EASY WIHT ABILITY INDEX STUFF
         [Command]
         private void TryCastCmd(int abilityIndex, NetworkIdentity target)
         {
@@ -276,8 +280,19 @@ namespace _ProjectA.Scripts.Controllers
             _isCasting = true;
             _currentAbility = _abilities[abilityIndex];
             _currentAbility.StartCast();
-            if(isServer && !isLocalPlayer)
-                ConfirmStartCastOnClients(abilityIndex, _target.NetworkIdentity);
+            if (isServer && !isLocalPlayer)
+            {
+                if (_currentAbility.BaseData.RequireTarget)
+                {
+                    ConfirmStartCastOnClients(abilityIndex, _target.NetworkIdentity);
+                }
+                else
+                {
+                    ConfirmStartCastOnClients(abilityIndex, TargetLocation);
+                }
+            }
+                
+            
         }
 
         [ClientRpc]
@@ -286,12 +301,20 @@ namespace _ProjectA.Scripts.Controllers
             if(isLocalPlayer)
                 Debug.Log("ConfirmCastOnServer");
             else 
-                CastOnClients(abilityIndex, target);
+                CastOnClientsWithTarget(abilityIndex, target);
             
         }
 
-        
-        private void CastOnClients(int abilityIndex, NetworkIdentity target)
+        [ClientRpc]
+        private void ConfirmStartCastOnClients(int abilityIndex, Vector3 targetLocation)
+        {
+            if(isLocalPlayer)
+                Debug.Log("ConfirmCastOnServer");
+            else 
+                CastOnClients(abilityIndex);
+            
+        }
+        private void CastOnClientsWithTarget(int abilityIndex, NetworkIdentity target)
         {
             _target = target.GetComponent<PlayerBrain>();
             _isCasting = true;
@@ -299,11 +322,18 @@ namespace _ProjectA.Scripts.Controllers
             _currentAbility.StartCast();
             _namePlate.StartCast(_currentAbility);
         }
-
+        
+        private void CastOnClients(int abilityIndex)
+        {
+            _isCasting = true;
+            _currentAbility = _abilities[abilityIndex];
+            _currentAbility.StartCast();
+            _namePlate.StartCast(_currentAbility);
+        }
         public void Handle()
         {
             foreach (var ability in _abilities)
-                ability.Handle();
+                ability.HandleCoolDown();
 
             _currentGlobalCd -= Time.deltaTime;
             

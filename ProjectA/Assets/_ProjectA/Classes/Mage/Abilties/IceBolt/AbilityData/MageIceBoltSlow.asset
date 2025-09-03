@@ -17,5 +17,8 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: 6840b590b41ad2e4b9c71d5f0028fa2d, type: 3}
   _duration: 3
   _isBuff: 0
+  _hasStacks: 0
+  _showAllPlayers: 0
   _statusVFX: {fileID: 6524403717266067889, guid: 810f788af34ce2341a03596c17355433, type: 3}
+  _statusIconPrefab: {fileID: 3825362426231417955, guid: fa341889e1ae4bd4a8327c3c8f960512, type: 3}
   _slowAmount: 0.2

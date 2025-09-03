@@ -1,7 +1,7 @@
 using _ProjectA.Data.AbilityData;
 using _ProjectA.Managers;
 using _ProjectA.Scripts.Abilities;
-using _ProjectA.Scripts.Abilities.Mage;
+using _ProjectA.Scripts.Abilities.BaseClasses;
 using _ProjectA.Scripts.Controllers;
 using Data.Interaction;
 using Sirenix.OdinInspector;

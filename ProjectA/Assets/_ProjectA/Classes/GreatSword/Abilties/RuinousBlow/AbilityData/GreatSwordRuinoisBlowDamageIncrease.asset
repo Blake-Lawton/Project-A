@@ -18,5 +18,7 @@ MonoBehaviour:
   _duration: 8
   _isBuff: 0
   _hasStacks: 0
+  _showAllPlayers: 0
   _statusVFX: {fileID: 0}
+  _statusIconPrefab: {fileID: 3825362426231417955, guid: fa341889e1ae4bd4a8327c3c8f960512, type: 3}
   _percentage: 0.3

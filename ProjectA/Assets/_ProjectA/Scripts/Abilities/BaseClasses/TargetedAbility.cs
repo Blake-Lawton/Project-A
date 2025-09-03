@@ -1,18 +1,9 @@
-using System;
 using _ProjectA.Data.AbilityData;
-using _ProjectA.Managers;
 using _ProjectA.Scripts.Controllers;
-using _ProjectA.Scripts.UI.AbilitiyUIController;
-using AMPInternal;
-using Data.AbilityData;
-using Data.Interaction;
 using Data.Types;
-using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Joint = Data.Types.Joint;
 
-namespace _ProjectA.Scripts.Abilities.Mage
+namespace _ProjectA.Scripts.Abilities.BaseClasses
 {
     public abstract class TargetedAbility : BaseAbility
     {

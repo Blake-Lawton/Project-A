@@ -1,5 +1,5 @@
 using _ProjectA.Scripts.Abilities;
-using _ProjectA.Scripts.Abilities.Mage;
+using _ProjectA.Scripts.Abilities.BaseClasses;
 using UnityEngine;
 
 namespace _ProjectA.Data.AbilityData

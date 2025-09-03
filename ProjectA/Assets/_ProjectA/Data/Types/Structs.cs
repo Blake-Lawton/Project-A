@@ -26,15 +26,12 @@ namespace Data.Types
         public uint Tick;
         public Vector3 Movement;
         public Vector3 Rotation;
-        public bool Jump;
         
         public InputPayLoad(Client client)
         {
             Tick = client.Csp.CurrentTick;
             Movement = client.Movement.MoveDirection;
             Rotation = client.Movement.Rotation;
-            Jump = client.Movement.InputJump;
-     
         }
     }
     

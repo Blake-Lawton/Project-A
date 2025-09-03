@@ -16,7 +16,7 @@ namespace _ProjectA.Scripts.Controllers
         //Inputs
         private PlayerInputActions _input;
         private InputAction _movement;
-        private InputAction _jump;
+     
         private InputAction _mouse;
         
      
@@ -24,17 +24,24 @@ namespace _ProjectA.Scripts.Controllers
         [SerializeField, Sirenix.OdinInspector.ReadOnly] private Vector3 _finalVelocity;
         private Vector3 _currentVelocity;
         private Vector3 _moveDirection;
-        private bool _pressedJump;
+     
+        private Vector2 _mouseDelta;
 
         [Header("States")] 
         [SerializeField, ReadOnly] private RotationState _rotationState;
+        [SerializeField, ReadOnly] private MovementState _movementState;
         private PlayerBrain _target;
         public Vector3 MoveDirection => _moveDirection;
         public Vector3 Rotation => transform.eulerAngles;
-        
-        public bool InputJump => _pressedJump;
-        public Vector3 FinalVelocity => _finalVelocity;
+
+        public Vector3 FinalVelocity
+        {
+            get => _finalVelocity;
+            set => _finalVelocity = value;
+        }
+
         public bool Moving => _finalVelocity != Vector3.zero;
+        public Vector2 MouseDelta => _mouseDelta;
         public CharacterController CC => _cc;
         void Awake()
         {
@@ -47,10 +54,7 @@ namespace _ProjectA.Scripts.Controllers
             
             _mouse = _input.Player.Look;
             _mouse.Enable();
-            
-            _jump = _input.Player.Jump;     
-            _jump.Enable();
-            _jump.performed += Jump;
+           
         }
 
 
@@ -59,17 +63,17 @@ namespace _ProjectA.Scripts.Controllers
             if (isLocalPlayer)
                 return;
 
-            _jump.performed -= Jump;
+          
             _movement.Disable();
-            _jump.Disable();
+          
             _mouse.Disable();
 
         }
         private void OnDisable()
         {
-            _jump.performed -= Jump;
+           
             _movement.Disable();
-            _jump.Disable();
+           
             _mouse.Disable();
         }
 
@@ -86,30 +90,50 @@ namespace _ProjectA.Scripts.Controllers
         public CspState ProcessInput(InputPayLoad input)
         {
            
-        
-            if (input.Jump && IsGrounded())
-            {
-            }
-            _pressedJump = false;
+            
             
             
             transform.eulerAngles = input.Rotation;
-            _finalVelocity = input.Movement;
+            
 
             if (_brain.Status.Stunned || _brain.Status.Rooted)
                 _finalVelocity = Vector3.zero;
             
-            
-            _cc.enabled = true;
-            _cc.Move(_finalVelocity * (NetworkServer.sendInterval * _brain.CharacterData.MaxMoveSpeed * _brain.Status.SlowFactor()));
-            _cc.enabled = false;
+            //^^^^ for this above here dog
+            //ability needs to send a data of being able to be stopped during the movement or not
+            //will fix later
+
+            switch (_movementState)
+            {
+                case MovementState.Input:
+                    _cc.enabled = true;
+                    _finalVelocity = input.Movement;
+                    _cc.Move(_finalVelocity * (NetworkServer.sendInterval * _brain.CharacterData.MaxMoveSpeed * _brain.Status.SlowFactor()));
+                    _cc.enabled = false;
+                    break;
+                case MovementState.InMovementAbility:
+                    _cc.enabled = true;
+                    _cc.Move(_finalVelocity);
+                    _cc.enabled = false;
+                    break;
+            }
+          
             var state = RecordState(input.Tick);
             return state;
         }
 
        
+        public void SetRotationState(RotationState newState, PlayerBrain target = null)
+        {
+            _target = target;
+            _rotationState = newState;
+        }
+        public void SetMovementState(MovementState newState)
+        {
+           _movementState = newState;
+        }
 
-        #region Apply
+        #region Tele
 
         
         [Server]
@@ -131,7 +155,20 @@ namespace _ProjectA.Scripts.Controllers
         
         private void MovementInput()
         {
-            Vector2 input = _movement.ReadValue<Vector2>();
+            Vector2 input = Vector2.zero;
+
+            switch (_movementState)
+            {
+                case MovementState.Input:
+                    input = _movement.ReadValue<Vector2>();
+                    break;
+                case MovementState.NoInput:
+                    break;
+                case MovementState.InMovementAbility:
+                    break;
+            }
+           
+            
             // Map WASD / joystick directly to world-space X/Z
             _moveDirection = new Vector3(input.x, 0f, input.y);
         }
@@ -140,6 +177,7 @@ namespace _ProjectA.Scripts.Controllers
         public void RotationInput()
         {
             Vector2 mousePos = _mouse.ReadValue<Vector2>();
+            _mouseDelta = mousePos;
             Ray ray = Camera.main.ScreenPointToRay(mousePos);
 
             // Raycast down from the camera
@@ -175,15 +213,7 @@ namespace _ProjectA.Scripts.Controllers
                     break;
             }
         }
-        private void Jump(InputAction.CallbackContext callback)
-        {
-            if (isLocalPlayer)
-            {
-                _pressedJump = true;
-            }
-        }
-
-
+        
         #endregion
        
            
@@ -216,11 +246,7 @@ namespace _ProjectA.Scripts.Controllers
 
         private bool IsGrounded()  => _cc.isGrounded;
         
-        public void ChangeRotationState(RotationState newState, PlayerBrain target = null)
-        {
-            _target = target;
-            _rotationState = newState;
-        }
+        
 
         private void LookAtTarget()
         {
@@ -237,6 +263,7 @@ namespace _ProjectA.Scripts.Controllers
         #endregion
 
 
-       
+        
+     
     }
 }

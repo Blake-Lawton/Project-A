@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using _ProjectA.Data.AbilityData;
 using _ProjectA.Data.Types;
 using _ProjectA.Managers;
-using _ProjectA.Scripts.Abilities.Mage;
- using _ProjectA.Scripts.Managers;
+using _ProjectA.Scripts.Abilities.BaseClasses;
+using _ProjectA.Scripts.Managers;
 using _ProjectA.Scripts.Util;
 using Data.Interaction;
 using Data.Types;
@@ -26,7 +26,7 @@ namespace _ProjectA.Classes.GreatSword.Abilties.Strike.Scirpts
                 strike.HasStruck = false;
             
             _brain.Animation.Animator.SetInteger(_baseData.Animations["Ability"], _baseData.AbilityAnimationNumber);
-            _brain.Movement.ChangeRotationState(RotationState.LookAtTarget, _target);
+            _brain.Movement.SetRotationState(RotationState.LookAtTarget, _target);
             SFXManagerWrapper.Instance.Play(TargetedMeleeData.FindSFX("Swing"), transform.position, _brain.isLocalPlayer);
         }
 
@@ -53,7 +53,7 @@ namespace _ProjectA.Classes.GreatSword.Abilties.Strike.Scirpts
 
         public override void EndCast()
         {
-            _brain.Movement.ChangeRotationState(RotationState.RegularInput);
+            _brain.Movement.SetRotationState(RotationState.RegularInput);
             _brain.Animation.Animator.SetInteger(_baseData.Animations["Ability"], 0);
         }
 

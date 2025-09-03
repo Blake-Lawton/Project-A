@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _ProjectA.Managers;
-using _ProjectA.Scripts.Abilities.Mage;
+using _ProjectA.Scripts.Abilities.BaseClasses;
 using _ProjectA.Scripts.Controllers;
 using _ProjectA.Scripts.Util;
 using Data.AbilityData;

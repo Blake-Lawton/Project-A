@@ -5,6 +5,8 @@ using Data.Interaction;
 using Data.StatusEffectData;
 using Sirenix.Serialization;
 using UnityEngine;
+using Object = UnityEngine.Object;
+
 
 namespace _ProjectA.Status.Active
 {
@@ -17,9 +19,13 @@ namespace _ProjectA.Status.Active
         [SerializeField] protected float _duration;
         [SerializeField] protected float _currentDuration;
         private InteractionData _interaction;
-        protected StatusNameplateIcon _nameplateIcon;
         public InteractionData Interaction => _interaction;
         public BaseStatusData Data => _data;
+        public PlayerBrain Target => _target;
+        public PlayerBrain Perp => _perp;
+
+        public event Action<float, float> UpdateStatus;
+        public event Action RemoveStatus;
         public virtual void SetUp(InteractionData interaction, BaseStatusData data)
         {
             _target = interaction.Victim;
@@ -42,34 +48,24 @@ namespace _ProjectA.Status.Active
 
         public virtual void End()
         {
-            _nameplateIcon.Remove();
+            RemoveStatus?.Invoke();
             _target.Status.RemoveStatus(this);
         }
 
         public virtual void Handle()
         {
-           
-            _nameplateIcon.Handle(_currentDuration, _data.Duration);
+            UpdateStatus?.Invoke(_currentDuration, _data.Duration);
             _currentDuration -= Time.deltaTime;
             if(_currentDuration <= 0)
                 End();
         }
 
-        public void SetUpUI(StatusNameplateIcon icon)
+
+        public StatusIcon GenerateIcon()
         {
-            _nameplateIcon = icon;
-            icon.gameObject.SetActive(false);
-            if (_data.ShowAllPlayers)
-            {
-                icon.gameObject.SetActive(true);
-            }
-            else
-            {
-                if(_perp.isLocalPlayer)
-                    icon.gameObject.SetActive(true);
-            }
-                
-                
+            var icon = Object.Instantiate(_data.StatusIconPrefab);
+            icon.SetUp(this);
+            return icon;
         }
     }
 }
