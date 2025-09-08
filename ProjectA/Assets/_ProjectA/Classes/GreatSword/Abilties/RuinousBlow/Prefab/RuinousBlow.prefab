@@ -87,13 +87,13 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _baseData: {fileID: 11400000, guid: 845ef42735a15d840b6e3bd5dcdcd540, type: 2}
-  Strikes:
+  _strikes:
   - ID: 0
-    StrikeTime: 0.1
+    StrikeTime: 0
     HasStruck: 0
     StrikeLocation: {fileID: 7809839069531708688}
-  - ID: 1
-    StrikeTime: 0.5
+  - ID: 0
+    StrikeTime: 0
     HasStruck: 0
     StrikeLocation: {fileID: 5725714778575306983}
 --- !u!1 &6496412863935932827

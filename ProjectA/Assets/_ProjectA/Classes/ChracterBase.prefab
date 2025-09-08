@@ -4095,6 +4095,7 @@ MonoBehaviour:
   syncInterval: 0
   _finalVelocity: {x: 0, y: 0, z: 0}
   _rotationState: 0
+  _movementState: 0
 --- !u!114 &5336836065865958413
 MonoBehaviour:
   m_ObjectHideFlags: 0

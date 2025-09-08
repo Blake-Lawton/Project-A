@@ -31,7 +31,11 @@ namespace _ProjectA.Scripts.Controllers
         [SerializeField, ReadOnly] private RotationState _rotationState;
         [SerializeField, ReadOnly] private MovementState _movementState;
         private PlayerBrain _target;
-        public Vector3 MoveDirection => _moveDirection;
+        public Vector3 MoveDirection { 
+            get => _moveDirection;
+            set => _moveDirection = value;
+        }
+    
         public Vector3 Rotation => transform.eulerAngles;
 
         public Vector3 FinalVelocity
@@ -40,7 +44,7 @@ namespace _ProjectA.Scripts.Controllers
             set => _finalVelocity = value;
         }
 
-        public bool Moving => _finalVelocity != Vector3.zero;
+        public bool Moving => _moveDirection != Vector3.zero;
         public Vector2 MouseDelta => _mouseDelta;
         public CharacterController CC => _cc;
         void Awake()
@@ -107,13 +111,12 @@ namespace _ProjectA.Scripts.Controllers
             {
                 case MovementState.Input:
                     _cc.enabled = true;
-                    _finalVelocity = input.Movement;
-                    _cc.Move(_finalVelocity * (NetworkServer.sendInterval * _brain.CharacterData.MaxMoveSpeed * _brain.Status.SlowFactor()));
+                    _cc.Move(input.Movement * (NetworkServer.sendInterval * _brain.CharacterData.MaxMoveSpeed * _brain.Status.SlowFactor()));
                     _cc.enabled = false;
                     break;
                 case MovementState.InMovementAbility:
                     _cc.enabled = true;
-                    _cc.Move(_finalVelocity);
+                    _cc.Move(input.Movement);
                     _cc.enabled = false;
                     break;
             }
@@ -137,10 +140,10 @@ namespace _ProjectA.Scripts.Controllers
 
         
         [Server]
-        public void Teleport(Transform point)
+        public void Teleport(Vector3 point)
         {
             _cc.enabled = false;
-            transform.position = point.position;
+            transform.position = point;
             _cc.enabled = true;
         }
         #endregion
@@ -150,29 +153,19 @@ namespace _ProjectA.Scripts.Controllers
 
         public void TakeInput()
         {
-            MovementInput();
-        }
-        
-        private void MovementInput()
-        {
-            Vector2 input = Vector2.zero;
-
             switch (_movementState)
             {
                 case MovementState.Input:
-                    input = _movement.ReadValue<Vector2>();
+                    var input =  _movement.ReadValue<Vector2>();
+                    _moveDirection = new Vector3(input.x, 0f, input.y);
                     break;
                 case MovementState.NoInput:
+                    _moveDirection = Vector3.zero;
                     break;
                 case MovementState.InMovementAbility:
                     break;
             }
-           
-            
-            // Map WASD / joystick directly to world-space X/Z
-            _moveDirection = new Vector3(input.x, 0f, input.y);
         }
-        
        
         public void RotationInput()
         {

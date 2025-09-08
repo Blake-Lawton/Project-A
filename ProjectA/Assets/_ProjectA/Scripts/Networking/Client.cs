@@ -44,7 +44,7 @@ namespace _ProjectA.Scripts.Networking
             while (_accumulatedTime >= NetworkServer.sendInterval)
             {
                 
-                Tick?.Invoke(NetworkServer.sendInterval);
+               
                 
                 if(isLocalPlayer)
                     _csp.HandleTick(this);
@@ -53,7 +53,8 @@ namespace _ProjectA.Scripts.Networking
                     _server.HandleTick();
                 
                 _accumulatedTime -= NetworkServer.sendInterval;
-
+                
+                Tick?.Invoke(NetworkServer.sendInterval);
                 
             }
           

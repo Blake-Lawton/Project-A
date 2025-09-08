@@ -9,6 +9,7 @@ using Data.Types;
 using Mirror;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace _ProjectA.Scripts.Abilities
@@ -161,6 +162,11 @@ namespace _ProjectA.Scripts.Abilities
         public virtual void SetUp()
         {
             _brain = GetComponentInParent<PlayerBrain>();
+        }
+
+        public  virtual void ReceiveVector3(Vector3 mouse)
+        {
+            
         }
     }
 }

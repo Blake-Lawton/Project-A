@@ -37,9 +37,8 @@ namespace _ProjectA.Scripts.Networking
 
         public void HandleTick()
         {
-            _currentServerTick++;
             ServerHandleTick();
-          
+            _currentServerTick++;
         }
 
         public void HandleServerTime()

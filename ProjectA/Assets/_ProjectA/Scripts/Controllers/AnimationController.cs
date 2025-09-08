@@ -22,13 +22,13 @@ namespace _ProjectA.Scripts.Controllers
 
       private void MovementAnims()
       {
-         float velocityZ = Vector3.Dot(_movement.FinalVelocity.normalized, transform.forward);
-         float velocityX = Vector3.Dot(_movement.FinalVelocity.normalized, transform.right);
+         float velocityZ = Vector3.Dot(_movement.MoveDirection.normalized, transform.forward);
+         float velocityX = Vector3.Dot(_movement.MoveDirection.normalized, transform.right);
 
          _animator.SetFloat("Horizontal", velocityX, 1f, Time.deltaTime * 10f);
          _animator.SetFloat("Vertical", velocityZ, 1f, Time.deltaTime * 10f);
          
-         _animator.SetBool("IsMoving",_movement.FinalVelocity.magnitude > 0.1f);
+         _animator.SetBool("IsMoving",_movement.MoveDirection.magnitude > 0.1f);
       }
    }
 }

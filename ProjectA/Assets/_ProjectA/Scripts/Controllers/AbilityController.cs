@@ -33,7 +33,7 @@ namespace _ProjectA.Scripts.Controllers
 
 
         [Header("Ability")]
-        [SerializeField,ReadOnly] private float _globalCd => _brain.CharacterData.GlobalCD;
+        [SerializeField, ReadOnly] private float _globalCd => _brain.CharacterData.GlobalCD;
         [SerializeField, ReadOnly]  private float _currentGlobalCd;
         [SerializeField, ReadOnly] private BaseAbility _currentAbility;
         [SerializeField, ReadOnly] private float _castTime;
@@ -245,8 +245,7 @@ namespace _ProjectA.Scripts.Controllers
             _currentAbility = _abilities[abilityIndex];
             _isCasting = true;
             
-            _namePlate.StartCast(_currentAbility);
-            _currentAbility.StartCast();
+           
            
 
             if (_currentAbility.BaseData.RequireTarget)
@@ -259,7 +258,8 @@ namespace _ProjectA.Scripts.Controllers
             }
                 
             
-            
+            _namePlate.StartCast(_currentAbility);
+            _currentAbility.StartCast();
         }
 
         
@@ -288,7 +288,7 @@ namespace _ProjectA.Scripts.Controllers
                 }
                 else
                 {
-                    ConfirmStartCastOnClients(abilityIndex, TargetLocation);
+                    ConfirmStartCastOnClients(abilityIndex);
                 }
             }
                 
@@ -306,7 +306,7 @@ namespace _ProjectA.Scripts.Controllers
         }
 
         [ClientRpc]
-        private void ConfirmStartCastOnClients(int abilityIndex, Vector3 targetLocation)
+        private void ConfirmStartCastOnClients(int abilityIndex)
         {
             if(isLocalPlayer)
                 Debug.Log("ConfirmCastOnServer");
@@ -355,7 +355,6 @@ namespace _ProjectA.Scripts.Controllers
 
         public void InterruptCastLocal()
         {
-            Debug.Log("WE INTERUPPEt");
             _currentAbility.Interrupt();
             _isCasting = false;
             _castTime = 0;
@@ -391,6 +390,12 @@ namespace _ProjectA.Scripts.Controllers
 
         }
         
+     
+
+
+
+        #region  Util
+
         [ClientRpc]
         public void ConfirmHit(int id)
         {
@@ -399,24 +404,10 @@ namespace _ProjectA.Scripts.Controllers
             _currentAbility.ConfirmHit(id);
         }
 
-
-
-        #region  Util
-
-        private string GetKeybindForAbility(int index)
+        [Command]
+        public void SendAbilityPosition(Vector3 targetPos)
         {
-            InputAction action = index switch
-            {
-                0 => _input.Player.Ability1,
-                1 => _input.Player.Ability2,
-                2 => _input.Player.Ability3,
-                _ => null
-            };
-
-            if (action == null) return string.Empty;
-
-            // Pretty display string, e.g. "Q" instead of "<Keyboard>/q"
-            return action.GetBindingDisplayString();
+            _currentAbility.ReceiveVector3(targetPos);
         }
 
         #endregion
